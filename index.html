@@ -7,19 +7,23 @@
 <body>
 	<h1>Test</h1>
 	<input type="button" value="Choose a file" id="select-file"/>
-	<br>
-	<img src="" id="orgImg" max-width="300px">
-	<img src="" id="mosImg">
-	<p>Mosaic Dimensions (in lego bricks):</p>
-	<p>Width: <input type="text" id="mWidth"></p>
-	<p>Height: <input type="text" id="mHeight"></p>
-	<input type="submit" id="MosaicDimensions">
-
+	<div class="imageContainers">
+		<div class="leftPane">
+			<img src="" id="orgImg">
+		</div>
+		<div class="rightPane">
+			<p>Mosaic Dimensions (in lego bricks):</p>
+			<p>Width: <input type="text" id="mWidth"></p>
+			<p>Height: <input type="text" id="mHeight"></p>
+			<input type="submit" id="MosaicDimensions">
+		</div>
+	</div>
 	<script>
         var app = require('electron').remote; 
 		var dialog = app.dialog;
         var fs = require('fs');
         var Jimp = require("jimp");
+        var iterator = 0;
             
         document.getElementById('select-file').addEventListener('click',function(){
             dialog.showOpenDialog(function (fileNames) {

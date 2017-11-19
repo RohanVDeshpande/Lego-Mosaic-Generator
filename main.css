@@ -1,3 +1,17 @@
 #mosImg{
 	image-rendering: pixelated;
 }
+.leftPane{
+	width: calc(100% - 501px);
+	float:left;
+	padding: 50px 0px 0px 50px;
+}
+.rightPane{
+	width: 350px;
+	padding-left: 50px;
+	float:right;
+	border-left: black 1px solid;
+}
+#orgImg{
+	max-width: 100%;
+}
