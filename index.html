@@ -10,6 +10,7 @@
             var app = require('electron').remote; 
 			var dialog = app.dialog;
             var fs = require('fs');
+            var Jimp = require("jimp");
                 
             document.getElementById('select-file').addEventListener('click',function(){
                 dialog.showOpenDialog(function (fileNames) {
@@ -17,9 +18,30 @@
                         console.log("No file selected");
                     }else{
                         console.log(fileNames[0])
+                        linkOrgImage(fileNames[0])
                     }
                 }); 
             },false);
+            function linkOrgImage(imgPath){
+            	linkImage(imgPath);
+            	Jimp.read(imgPath, function (err, lenna) {
+				    if (err){
+				    	console.log(err)
+				    }
+				    console.log("Processing");
+				    lenna.greyscale();                 // set greyscale 
+				    lenna.write(".//temp//temp.jpg");
+				    setTimeout(function(){
+				    	document.getElementById('mosImg').src = "./temp/temp.jpg";
+				    }, 100);
+				});
+            }
+            function linkImage(imgPath){
+            	document.getElementById('orgImg').src = imgPath;
+            }
 	</script>
+	<br>
+	<img src="" id="orgImg">
+	<img src="" id="mosImg">
 </body>
 </html>
