@@ -6,42 +6,76 @@
 <body>
 	<h1>Test</h1>
 	<input type="button" value="Choose a file" id="select-file"/>
-	<script>
-            var app = require('electron').remote; 
-			var dialog = app.dialog;
-            var fs = require('fs');
-            var Jimp = require("jimp");
-                
-            document.getElementById('select-file').addEventListener('click',function(){
-                dialog.showOpenDialog(function (fileNames) {
-                    if(fileNames === undefined){
-                        console.log("No file selected");
-                    }else{
-                        console.log(fileNames[0])
-                        linkOrgImage(fileNames[0])
-                    }
-                }); 
-            },false);
-            function linkOrgImage(imgPath){
-            	linkImage(imgPath);
-            	Jimp.read(imgPath, function (err, lenna) {
-				    if (err){
-				    	console.log(err)
-				    }
-				    console.log("Processing");
-				    lenna.greyscale();                 // set greyscale 
-				    lenna.write(".//temp//temp.jpg");
-				    setTimeout(function(){
-				    	document.getElementById('mosImg').src = "./temp/temp.jpg";
-				    }, 100);
-				});
-            }
-            function linkImage(imgPath){
-            	document.getElementById('orgImg').src = imgPath;
-            }
-	</script>
 	<br>
 	<img src="" id="orgImg">
 	<img src="" id="mosImg">
+	<p>Mosaic Dimensions (in lego bricks):</p>
+	<p>Width: <input type="text" id="mWidth"></p>
+	<p>Height: <input type="text" id="mHeight"></p>
+	<input type="submit" id="MosaicDimensions">
+
+	<script>
+        var app = require('electron').remote; 
+		var dialog = app.dialog;
+        var fs = require('fs');
+        var Jimp = require("jimp");
+            
+        document.getElementById('select-file').addEventListener('click',function(){
+            dialog.showOpenDialog(function (fileNames) {
+                if(fileNames === undefined){
+                    console.log("No file selected");
+                }else{
+                    console.log(fileNames[0])
+                    linkOrgImage(fileNames[0])
+                }
+            }); 
+        },false);
+        document.getElementById('MosaicDimensions').addEventListener('click',function(){
+            Jimp.read("./temp/temp.jpg", function (err, lenna) {
+			    if (err){
+			    	console.log(err)
+			    }
+			    width = document.getElementById('mWidth').value;
+			    height = document.getElementById('mHeight').value;
+			    if(width.includes("%")){
+			    	width = parseInt(lenna.bitmap.width * parseInt(width)/100);
+			    	document.getElementById('mWidth').value = width;
+			    }
+			    if(height.includes("%")){
+			    	height = parseInt(lenna.bitmap.height * parseInt(height)/100);
+			    	document.getElementById('mHeight').value = height;
+			    }
+			    if(!(width.includes("%") && height.includes("%"))){
+			    	width = parseInt(width);
+			    	height = parseInt(height);
+			    }
+			    console.log(width);
+			    console.log(height);
+			    lenna.resize(width,height);
+			    lenna.write(".//temp//temp.jpg");
+			    setTimeout(function(){
+			    	linkImage("./temp/temp.jpg?"+ new Date().getTime(), 'mosImg');
+			    }, 100);
+			});
+        },false);
+        function linkOrgImage(imgPath){
+        	linkImage(imgPath, 'orgImg');
+        	Jimp.read(imgPath, function (err, lenna) {
+			    if (err){
+			    	console.log(err)
+			    }
+			    document.getElementById('mWidth').value = lenna.bitmap.width;
+			    document.getElementById('mHeight').value = lenna.bitmap.height;
+			    lenna.greyscale();                 // set greyscale 
+			    lenna.write(".//temp//temp.jpg");
+			    setTimeout(function(){
+			    	linkImage("./temp/temp.jpg", 'mosImg');
+			    }, 100);
+			});
+        }
+        function linkImage(imgPath, id){
+        	document.getElementById(id).src = imgPath;
+        }
+	</script>
 </body>
 </html>
