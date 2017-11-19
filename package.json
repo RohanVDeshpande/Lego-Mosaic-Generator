@@ -1,0 +1,22 @@
+{
+  "name": "legomosaic",
+  "version": "1.0.0",
+  "description": "Generates Lego Mosaic from Image",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RohanVDeshpande/Lego-Mosaic-Generator.git"
+  },
+  "author": "Rohan V Deshpande",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RohanVDeshpande/Lego-Mosaic-Generator/issues"
+  },
+  "homepage": "https://github.com/RohanVDeshpande/Lego-Mosaic-Generator#readme",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
+}
