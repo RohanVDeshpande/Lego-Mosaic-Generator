@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/RohanVDeshpande/Lego-Mosaic-Generator#readme",
   "dependencies": {
-    "electron": "^1.7.9"
+    "electron": "^1.7.9",
+    "fs": "0.0.1-security",
+    "jimp": "^0.2.28",
+    "remote": "^0.2.6"
   }
 }
