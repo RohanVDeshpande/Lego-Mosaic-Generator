@@ -54,6 +54,7 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    console.log(width);
 	    console.log(height);
 	    lenna.resize(width,height);
+	    iterator++;
 	    lenna.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	linkImage(".//temp//"+iterator+".jpg", 'orgImg');
@@ -77,3 +78,16 @@ function linkImage(imgPath, id){
 	    }, 100);
 	});
 }*/
+document.getElementById('Grayscale').addEventListener('click',function(){
+    Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	    if (err){
+	    	console.log(err)
+	    }
+	    img.greyscale();
+	    iterator++;
+	    img.write(".//temp//"+iterator+".jpg");
+	    setTimeout(function(){
+	    	linkImage(".//temp//"+iterator+".jpg", 'orgImg');
+	    }, 100);
+	});
+},false);
