@@ -24,19 +24,37 @@
         var fs = require('fs');
         var Jimp = require("jimp");
         var iterator = 0;
+        var path = ".//temp//";
+        var globalWidth = 0;
             
         document.getElementById('select-file').addEventListener('click',function(){
             dialog.showOpenDialog(function (fileNames) {
+            	iterator = 0;
                 if(fileNames === undefined){
                     console.log("No file selected");
                 }else{
-                    console.log(fileNames[0])
-                    linkOrgImage(fileNames[0])
+                    linkImage(fileNames[0],'orgImg');
+                    copyImage(fileNames[0]);
                 }
             }); 
         },false);
+        function copyImage(imgPath){
+        	Jimp.read(imgPath, function (err, img) {
+        		if (err){
+			    	console.log(err)
+			    }
+			    iterator++;
+			    img.write(path+iterator+".jpg");
+			    document.getElementById('mWidth').value = img.bitmap.width;
+				document.getElementById('mHeight').value = img.bitmap.height;
+				if(iterator == 1){
+					globalWidth = img.bitmap.width;
+					document.getElementById('orgImg').style = "width:"+globalWidth+"px;";
+				}
+			});
+        }
         document.getElementById('MosaicDimensions').addEventListener('click',function(){
-            Jimp.read("./temp/temp.jpg", function (err, lenna) {
+            Jimp.read("./temp/"+iterator+".jpg", function (err, lenna) {
 			    if (err){
 			    	console.log(err)
 			    }
@@ -57,30 +75,29 @@
 			    console.log(width);
 			    console.log(height);
 			    lenna.resize(width,height);
-			    lenna.write(".//temp//temp.jpg");
+			    lenna.write(".//temp//"+iterator+".jpg");
 			    setTimeout(function(){
-			    	linkImage("./temp/temp.jpg?"+ new Date().getTime(), 'mosImg');
+			    	linkImage(".//temp//"+iterator+".jpg", 'orgImg');
 			    }, 100);
 			});
         },false);
-        function linkOrgImage(imgPath){
+        function linkImage(imgPath, id){
+        	document.getElementById(id).src = imgPath;
+        }
+        /*
+         function linkOrgImage(imgPath){
         	linkImage(imgPath, 'orgImg');
         	Jimp.read(imgPath, function (err, lenna) {
 			    if (err){
 			    	console.log(err)
 			    }
-			    document.getElementById('mWidth').value = lenna.bitmap.width;
-			    document.getElementById('mHeight').value = lenna.bitmap.height;
 			    lenna.greyscale();                 // set greyscale 
 			    lenna.write(".//temp//temp.jpg");
 			    setTimeout(function(){
 			    	linkImage("./temp/temp.jpg", 'mosImg');
 			    }, 100);
 			});
-        }
-        function linkImage(imgPath, id){
-        	document.getElementById(id).src = imgPath;
-        }
+        }*/
 	</script>
 </body>
 </html>
