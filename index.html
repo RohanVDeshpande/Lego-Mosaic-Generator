@@ -16,14 +16,15 @@
 		</div>
 		<div class="rightPane">
 			<p>Mosaic Dimensions (in lego bricks):</p>
-			<p>Width: <input type="text" id="mWidth"></p>
-			<p>Height: <input type="text" id="mHeight"></p>
+			<p>Width: <input type="number" id="mWidth" oninput="widthChange()"></p>
+			<p>Height: <input type="number" id="mHeight" oninput="heightChange()"></p>
 			<input type="submit" id="MosaicDimensions">
 			<br>
 			<button id="Grayscale">Grayscale</button>
 		</div>
 	</div>
 	<script type="text/javascript" src="ZoomPan.js"></script>
+	<script type="text/javascript" src="ImageResize.js"></script>
 	<script type="text/javascript" src="manager.js"></script>
 </body>
 </html>

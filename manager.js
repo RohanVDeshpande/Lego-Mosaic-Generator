@@ -4,7 +4,6 @@ var fs = require('fs');
 var Jimp = require("jimp");
 var iterator = 0;
 var path = ".//temp//";
-var globalWidth = 0;
     
 document.getElementById('select-file').addEventListener('click',function(){
     dialog.showOpenDialog(function (fileNames) {
@@ -13,7 +12,6 @@ document.getElementById('select-file').addEventListener('click',function(){
             console.log("No file selected");
         }else{
         	updateImg(fileNames[0]);
-            //linkImage(fileNames[0],'orgImg');
             copyImage(fileNames[0]);
         }
     }); 
@@ -27,42 +25,8 @@ function copyImage(imgPath){
 	    img.write(path+iterator+".jpg");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
-		/*
-		if(iterator == 1){
-			globalWidth = img.bitmap.width;
-			document.getElementById('orgImg').style = "width:"+globalWidth+"px;";
-		}*/
 	});
 }
-document.getElementById('MosaicDimensions').addEventListener('click',function(){
-    Jimp.read("./temp/"+iterator+".jpg", function (err, lenna) {
-	    if (err){
-	    	console.log(err)
-	    }
-	    width = document.getElementById('mWidth').value;
-	    height = document.getElementById('mHeight').value;
-	    if(width.includes("%")){
-	    	width = parseInt(lenna.bitmap.width * parseInt(width)/100);
-	    	document.getElementById('mWidth').value = width;
-	    }
-	    if(height.includes("%")){
-	    	height = parseInt(lenna.bitmap.height * parseInt(height)/100);
-	    	document.getElementById('mHeight').value = height;
-	    }
-	    if(!(width.includes("%") && height.includes("%"))){
-	    	width = parseInt(width);
-	    	height = parseInt(height);
-	    }
-	    console.log(width);
-	    console.log(height);
-	    lenna.resize(width,height);
-	    iterator++;
-	    lenna.write(".//temp//"+iterator+".jpg");
-	    setTimeout(function(){
-	    	linkImage(".//temp//"+iterator+".jpg", 'orgImg');
-	    }, 100);
-	});
-},false);
 /*
 function linkImage(imgPath, id){
 	document.getElementById(id).src = imgPath;
@@ -89,7 +53,7 @@ document.getElementById('Grayscale').addEventListener('click',function(){
 	    iterator++;
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
-	    	linkImage(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
 	    }, 100);
 	});
 },false);

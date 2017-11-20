@@ -8,6 +8,10 @@
 
 window.onload = function(){		
 		    var ctx = canvas.getContext('2d');
+        ctx.msImageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = false;
 		    trackTransforms(ctx);
 		  
         redraw();
