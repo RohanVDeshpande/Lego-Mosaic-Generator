@@ -5,26 +5,11 @@
 
 	var gkhead = new Image;
 
-	window.onload = function(){		
-    
+
+window.onload = function(){		
 		    var ctx = canvas.getContext('2d');
 		    trackTransforms(ctx);
 		  
-    function redraw(){
-
-          // Clear the entire canvas
-          var p1 = ctx.transformedPoint(0,0);
-          var p2 = ctx.transformedPoint(canvas.width,canvas.height);
-          ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
-
-          ctx.save();
-          ctx.setTransform(1,0,0,1,0,0);
-          ctx.clearRect(0,0,canvas.width,canvas.height);
-          ctx.restore();
-
-          ctx.drawImage(gkhead,0,0);
-
-        }
         redraw();
 
       var lastX=canvas.width/2, lastY=canvas.height/2;
@@ -74,10 +59,29 @@
     
       canvas.addEventListener('DOMMouseScroll',handleScroll,false);
       canvas.addEventListener('mousewheel',handleScroll,false);
-	};
 
-	gkhead.src = 'http://phrogz.net/tmp/gkhead.jpg';
-	
+	};
+function redraw(){
+  var ctx = canvas.getContext('2d');
+  // Clear the entire canvas
+  var p1 = ctx.transformedPoint(0,0);
+  var p2 = ctx.transformedPoint(canvas.width,canvas.height);
+  ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
+
+  ctx.save();
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.restore();
+
+  ctx.drawImage(gkhead,0,0);
+
+}
+function updateImg(imgPath){
+  gkhead.src = imgPath;
+  setTimeout(function(){
+    redraw();
+  },200);
+}	
 	// Adds ctx.getTransform() - returns an SVGMatrix
 	// Adds ctx.transformedPoint(x,y) - returns an SVGPoint
 	function trackTransforms(ctx){

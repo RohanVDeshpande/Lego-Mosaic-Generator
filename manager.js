@@ -12,7 +12,8 @@ document.getElementById('select-file').addEventListener('click',function(){
         if(fileNames === undefined){
             console.log("No file selected");
         }else{
-            linkImage(fileNames[0],'orgImg');
+        	updateImg(fileNames[0]);
+            //linkImage(fileNames[0],'orgImg');
             copyImage(fileNames[0]);
         }
     }); 
@@ -26,10 +27,11 @@ function copyImage(imgPath){
 	    img.write(path+iterator+".jpg");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
+		/*
 		if(iterator == 1){
 			globalWidth = img.bitmap.width;
 			document.getElementById('orgImg').style = "width:"+globalWidth+"px;";
-		}
+		}*/
 	});
 }
 document.getElementById('MosaicDimensions').addEventListener('click',function(){
@@ -61,10 +63,10 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    }, 100);
 	});
 },false);
+/*
 function linkImage(imgPath, id){
 	document.getElementById(id).src = imgPath;
 }
-/*
  function linkOrgImage(imgPath){
 	linkImage(imgPath, 'orgImg');
 	Jimp.read(imgPath, function (err, lenna) {
