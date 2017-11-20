@@ -4,7 +4,6 @@
 .leftPane{
 	width: calc(100% - 501px);
 	float:left;
-	padding: 50px 0px 0px 50px;
 }
 .rightPane{
 	width: 350px;
@@ -15,4 +14,7 @@
 #orgImg{
 	max-width: 100%;
 	image-rendering: pixelated;
+}
+canvas{
+	background-color: #212121;
 }

@@ -1,6 +1,6 @@
 
 	var canvas = document.getElementsByTagName('canvas')[0];
-	canvas.width = 800;
+	canvas.width = 750;
   canvas.height = 600;
 
 	var gkhead = new Image;
