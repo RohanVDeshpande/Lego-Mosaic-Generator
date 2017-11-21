@@ -3,6 +3,7 @@ var dialog = app.dialog;
 var fs = require('fs');
 var Jimp = require("jimp");
 var path = ".//temp//";
+var forEach = require('async-foreach').forEach;
     
 document.getElementById('select-file').addEventListener('click',function(){
     dialog.showOpenDialog(function (fileNames) {
@@ -69,5 +70,32 @@ document.getElementById('Grayscale').addEventListener('click',function(){
 
 function addToHistory(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	document.getElementById('img-history').innerHTML = "<li><img src='.//temp//"+iterator+".jpg'></li>" + document.getElementById('img-history').innerHTML;
+	document.getElementById('img-history').innerHTML = "<li id='wrap"+iterator+"'><img id='"+iterator+"' onclick='restoreHistory(this.id)' src='.//temp//"+iterator+".jpg'><span>"+iterator+"</span></li>" + document.getElementById('img-history').innerHTML;
+}
+function restoreHistory(objectID){
+	updateImg(".//temp//"+objectID+".jpg", 'orgImg');
+	recreateHistory(objectID);
+}
+function recreateHistory(objectID){
+	var ul = document.getElementById('img-history');
+	var elements = ul.getElementsByTagName('li');
+	forEach(elements, function(item, index, arr) {
+	  num = parseInt(item.id.substring(4));
+	  if(num > objectID){
+	  	console.log(num);
+	  	deleteObj(num);
+
+	  }
+	  //deleteObj(num);
+	});
+	setTimeout(function(){
+		document.getElementById('iterator').innerHTML = objectID;
+	},200)
+}
+function deleteObj(number){
+	console.log('deleting '+number);
+	//document.getElementById('wrap'+number).outerHTML = "";
+	setTimeout(function(){
+		document.getElementById('wrap'+number).outerHTML = "";
+	},100);
 }
