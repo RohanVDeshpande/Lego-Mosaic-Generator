@@ -1,9 +1,9 @@
 var fs = require('fs');
 var Jimp = require("jimp");
-var iterator = 0;
 var path = ".//temp//";
 
 function widthChange(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
 	    	console.log(err)
@@ -14,6 +14,7 @@ function widthChange(){
 	});
 }
 function heightChange(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
 	    	console.log(err)
@@ -25,6 +26,7 @@ function heightChange(){
 }
 
 document.getElementById('MosaicDimensions').addEventListener('click',function(){
+    iterator = parseInt(document.getElementById('iterator').innerHTML);
     Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
 	    	console.log(err)
@@ -33,6 +35,7 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    height = parseInt(document.getElementById('mHeight').value);
 	    img.resize(width,height);
 	    iterator++;
+	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');

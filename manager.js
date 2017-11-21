@@ -2,7 +2,6 @@ var app = require('electron').remote;
 var dialog = app.dialog;
 var fs = require('fs');
 var Jimp = require("jimp");
-var iterator = 0;
 var path = ".//temp//";
     
 document.getElementById('select-file').addEventListener('click',function(){
@@ -21,7 +20,11 @@ function copyImage(imgPath){
 		if (err){
 	    	console.log(err)
 	    }
+	    iterator = parseInt(document.getElementById('iterator').innerHTML);
+	    console.log(iterator);
 	    iterator++;
+	    console.log(iterator);
+	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(path+iterator+".jpg");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
@@ -50,7 +53,9 @@ document.getElementById('Grayscale').addEventListener('click',function(){
 	    	console.log(err)
 	    }
 	    img.greyscale();
+	    iterator = parseInt(document.getElementById('iterator').innerHTML);
 	    iterator++;
+	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
