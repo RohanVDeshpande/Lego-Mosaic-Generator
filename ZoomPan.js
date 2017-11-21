@@ -1,7 +1,15 @@
+const electron = require('electron');
+var screenElectron = electron.screen;
+var mainScreen = screenElectron.getPrimaryDisplay();
+var dimensions = mainScreen.size;
+	
+  var canvas = document.getElementsByTagName('canvas')[0];
+  var width = document.getElementsByClassName('centerPane')[0].offsetWidth;
+  console.log(width);
+	canvas.width = width;
 
-	var canvas = document.getElementsByTagName('canvas')[0];
-	canvas.width = 750;
-  canvas.height = 600;
+  console.log('height: '+ dimensions.height);
+  canvas.height = dimensions.height-200;
 
 	var gkhead = new Image;
 

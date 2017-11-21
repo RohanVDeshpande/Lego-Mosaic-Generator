@@ -1,22 +1,41 @@
+html{
+	background-color: #484848;
+	color:white;
+	margin: 0;
+}
+body{
+	margin: 0;
+}
 #mosImg{
 	image-rendering: pixelated;
 }
 .leftPane{
-	width: calc(100% - 501px);
+	width: 75px;
+	height: 100px;
+	float: left;
+	border-top: 10px solid #353535;
+	text-align: center;
+}
+.centerPane{
+	width: calc(100% - 421px);
+	margin-right: 20px;
 	float:left;
 }
 .rightPane{
-	width: 350px;
-	padding-left: 50px;
+	width: 310px;
 	float:right;
-	border-left: black 1px solid;
+	padding-left: 15px;
 }
 #orgImg{
 	max-width: 100%;
 	image-rendering: pixelated;
 }
 canvas{
-	background-color: #212121;
+	background-color: #5d5d5d;
+	border:10px #353535 solid;
+	border-radius: 5px;
+	border-top-left-radius: 0px;
+	width: 100%;
 }
 #img-history img{
 	width: 100px;
