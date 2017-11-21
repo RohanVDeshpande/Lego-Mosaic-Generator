@@ -39,6 +39,7 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	addToHistory();
 	    }, 100);
 	});
 },false);

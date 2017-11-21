@@ -28,6 +28,9 @@ function copyImage(imgPath){
 	    img.write(path+iterator+".jpg");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
+		setTimeout(function(){
+			addToHistory();
+		},100);
 	});
 }
 /*
@@ -59,6 +62,12 @@ document.getElementById('Grayscale').addEventListener('click',function(){
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	addToHistory();
 	    }, 100);
 	});
 },false);
+
+function addToHistory(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
+	document.getElementById('img-history').innerHTML = "<li><img src='.//temp//"+iterator+".jpg'></li>" + document.getElementById('img-history').innerHTML;
+}
