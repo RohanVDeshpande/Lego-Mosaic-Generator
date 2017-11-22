@@ -9,7 +9,7 @@ var dimensions = mainScreen.size;
 	canvas.width = width;
 
   console.log('height: '+ dimensions.height);
-  canvas.height = dimensions.height-200;
+  canvas.height = dimensions.height-350;
 
 	var gkhead = new Image;
 
