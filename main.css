@@ -53,3 +53,9 @@ canvas{
 #img-history img{
 	width: 100px;
 }
+.inactive{
+	display: none;
+}
+.active{
+	display: block;
+}

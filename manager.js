@@ -99,3 +99,14 @@ function deleteObj(number){
 		document.getElementById('wrap'+number).outerHTML = "";
 	},100);
 }
+
+function changePanel(id){
+	console.log(id);
+	var activeObj = document.getElementsByClassName('active')[0]
+	if(activeObj != null){
+		activeObj.classList.remove("active");
+	}
+	if(id == 'changeDimensions'){
+		document.getElementById('dimensions').classList.add("active");
+	}
+}
