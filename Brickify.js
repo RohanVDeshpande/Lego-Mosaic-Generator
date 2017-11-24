@@ -4,6 +4,7 @@ var path = ".//temp//";
 
 function brickify(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
+	document.getElementById('allColors').innerHTML = "";
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 		if (err){
 	    	console.log(err)
@@ -43,9 +44,21 @@ function brickify(){
 					minIndex = index;
 				}
 			});
-			//console.log(min);
-			//console.log(minIndex);
 			img.setPixelColor(Jimp.rgbaToInt(colors[minIndex][0], colors[minIndex][1], colors[minIndex][2], 255), x, y);
+
+			var ul = document.getElementById('allColors');
+			var elements = ul.getElementsByTagName('li');
+			if(elements != null){
+				var addToList = true;
+				for(var i =0; i<elements.length; i++){
+					if(elements[i].innerHTML == colors[minIndex]){
+						addToList = false;
+					}
+				}
+			}
+			if(elements == null || addToList == true){
+				ul.innerHTML = "<li style='background-color:rgb("+colors[minIndex]+");'>"+colors[minIndex]+"</li>" + ul.innerHTML;
+			}
 		}
 	});
 

@@ -73,6 +73,7 @@ function addToHistory(){
 	document.getElementById('img-history').innerHTML = "<li id='wrap"+iterator+"'><img id='"+iterator+"' onclick='restoreHistory(this.id)' src='.//temp//"+iterator+".jpg?"+(new Date()).getTime()+"'><span>"+iterator+"</span></li>" + document.getElementById('img-history').innerHTML;
 }
 function restoreHistory(objectID){
+	document.getElementById('allColors').innerHTML = "";
 	updateImg(".//temp//"+objectID+".jpg", 'orgImg');
 	recreateHistory(objectID);
 }
