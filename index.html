@@ -11,7 +11,7 @@
 				<li id="select-file"><img src="./icons/icon-58-document-upload.svg"></li>
 				<li><img onclick="changePanel(this.id)" src="./icons/icon-29-information.svg" id="changeDimensions"></li>
 				<li onclick= "brickify()"><img src="./icons/icon-136-document-edit.svg"></li>
-				<li><img src="./icons/icon-134-pen.svg"></li>
+				<li><img onclick="changePanel(this.id)" src="./icons/icon-134-pen.svg" id="togglePaint"></li>
 				<li><img onclick="restoreHistory(0)" src="./icons/icon-27-trash-can.svg"></li>
 			</ul>
 		</div>
@@ -28,6 +28,7 @@
 			<div id="grayscale" class="inactive">
 				<button id="Grayscale">Grayscale</button>
 			</div>
+			<div id="paint" class="inactive"><p>Paint Tab</p></div>
 			<p>Change Number: <span id="iterator">0</span></p>
 			<ul id="img-history"></ul>
 		</div>

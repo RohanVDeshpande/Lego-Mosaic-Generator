@@ -109,4 +109,7 @@ function changePanel(id){
 	if(id == 'changeDimensions'){
 		document.getElementById('dimensions').classList.add("active");
 	}
+	else if(id == 'togglePaint'){
+		document.getElementById('paint').classList.add("active");
+	}
 }
