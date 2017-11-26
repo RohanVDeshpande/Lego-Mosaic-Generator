@@ -12,14 +12,11 @@ function widthChange(){
 }
 function heightChange(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
-	    if (err){
-	    	console.log(err)
-	    }
-	    height = parseInt(document.getElementById('mHeight').value);
-    	width = Math.round(height/img.bitmap.height*img.bitmap.width);
-    	document.getElementById('mWidth').value = width;
-	});
+	prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
+	prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+    height = parseInt(document.getElementById('mHeight').value);
+	width = Math.round(height/imgHeight*imgWidth);
+	document.getElementById('mWidth').value = width;
 }
 
 document.getElementById('MosaicDimensions').addEventListener('click',function(){
@@ -36,6 +33,8 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    img.write(".//temp//"+iterator+".jpg");
 	    setTimeout(function(){
 	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	document.getElementById('imgWidth').innerHTML = width;
+			document.getElementById('imgHeight').innerHTML = height;
 	    	addToHistory();
 	    }, 100);
 	});
