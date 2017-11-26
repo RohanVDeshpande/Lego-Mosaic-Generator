@@ -29,6 +29,8 @@ function copyImage(imgPath){
 	    img.write(path+iterator+".jpg");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
+		document.getElementById('imgWidth').innerHTML = img.bitmap.width;
+		document.getElementById('imgHeight').innerHTML = img.bitmap.height;
 		setTimeout(function(){
 			addToHistory();
 		},100);
@@ -75,6 +77,7 @@ function addToHistory(){
 function restoreHistory(objectID){
 	document.getElementById('allColors').innerHTML = "";
 	updateImg(".//temp//"+objectID+".jpg", 'orgImg');
+	updateDimensions(".//temp//"+objectID+".jpg");
 	recreateHistory(objectID);
 }
 function recreateHistory(objectID){

@@ -4,14 +4,11 @@ var path = ".//temp//";
 
 function widthChange(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
-	    if (err){
-	    	console.log(err)
-	    }
-	    width = parseInt(document.getElementById('mWidth').value);
-    	height = Math.round(width/img.bitmap.width*img.bitmap.height);
-    	document.getElementById('mHeight').value = height;
-	});
+	prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
+	prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+    width = parseInt(document.getElementById('mWidth').value);
+	height = Math.round(width/prevWidth*prevHeight);
+	document.getElementById('mHeight').value = height;
 }
 function heightChange(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
