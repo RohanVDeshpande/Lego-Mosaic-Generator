@@ -57,7 +57,7 @@ function brickify(){
 				}
 			}
 			if(elements == null || addToList == true){
-				ul.innerHTML = "<li style='background-color:rgb("+colors[minIndex]+");'>"+colors[minIndex]+"</li>" + ul.innerHTML;
+				ul.innerHTML = "<li class='usedColor' style='background-color:rgb("+colors[minIndex]+");'>"+colors[minIndex]+"</li>" + ul.innerHTML;
 			}
 		}
 	});

@@ -3,6 +3,15 @@
 <head>
 	<title>Lego Mosaic Generator</title>
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<script>
+		if (typeof module === 'object') {
+			window.module = module; module = undefined;
+		}
+	</script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		if (window.module) module = window.module;
+	</script>
 </head>
 <body>
 	<div class="imageContainers">
@@ -41,6 +50,7 @@
 	<script type="text/javascript" src="ZoomPan.js"></script>
 	<script type="text/javascript" src="ImageResize.js"></script>
 	<script type="text/javascript" src="Brickify.js"></script>
+	<script type="text/javascript" src="ChangeColors.js"></script>
 	<script type="text/javascript" src="manager.js"></script>
 </body>
 </html>
