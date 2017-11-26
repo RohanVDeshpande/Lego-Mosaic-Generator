@@ -117,3 +117,12 @@ function changePanel(id){
 		document.getElementById('paint').classList.add("active");
 	}
 }
+function updateDimensions(path){
+	Jimp.read(path, function (err, img) {
+	    if (err){
+	    	console.log(err)
+	    }
+	    document.getElementById('imgWidth').innerHTML = img.bitmap.width;
+		document.getElementById('imgHeight').innerHTML = img.bitmap.height;
+	});
+}
