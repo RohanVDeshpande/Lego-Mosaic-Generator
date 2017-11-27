@@ -43,7 +43,7 @@ function createCustomAlert(txt) {
 	btnY.appendChild(d.createTextNode(YES_BUTTON_TEXT));
 	btnY.href = "#";
 	btnY.focus();
-	btnY.onclick = function() { removeCustomAlert();return false; }
+	btnY.onclick = function() { brickifyContinue();return false; }
 
 
 	alertObj.style.display = "block";
@@ -56,4 +56,7 @@ function removeCustomAlert() {
 function ful(){
 alert('Alert this pages');
 }
-
+function brickifyContinue(){
+	brickify(false);
+	removeCustomAlert();
+}
