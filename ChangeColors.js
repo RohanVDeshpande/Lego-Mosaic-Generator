@@ -19,3 +19,18 @@ $(document).on('click', '.colorPalElm', function () {
 	$(this).addClass('colorPalSelected');
 });
 
+function changeColor(){
+	console.log('changeColor');
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
+	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+		if (err){
+	    	console.log(err)
+	    }
+	    var previousColorStr = document.getElementsByClassName('selectedColor')[0].style.backgroundColor;
+	    var previousColor = previousColorStr.substring(4, previousColorStr.length-1).replace(/ /g,'').split(',');
+	    console.log(previousColor);
+	    var newColorStr = document.getElementsByClassName('colorPalSelected')[0].style.backgroundColor;
+	    var newColor = newColorStr.substring(4, newColorStr.length-1).replace(/ /g,'').split(',');
+	    console.log(newColor);
+	});
+}
