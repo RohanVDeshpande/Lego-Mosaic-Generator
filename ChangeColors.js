@@ -31,6 +31,26 @@ function changeColor(){
 	    console.log(previousColor);
 	    var newColorStr = document.getElementsByClassName('colorPalSelected')[0].style.backgroundColor;
 	    var newColor = newColorStr.substring(4, newColorStr.length-1).replace(/ /g,'').split(',');
+	    var newHex = Jimp.rgbaToInt(parseInt(newColor[0]),parseInt(newColor[1]),parseInt(newColor[2]),255);
 	    console.log(newColor);
+		for(var i =0; i<width;i++){
+	    	for(var j=0; j<height;j++){
+	    		//console.log(i+', '+j);
+	    		color = Jimp.intToRGBA(img.getPixelColor(i,j));
+	    		diff = Math.pow(color.r-parseInt(previousColor[0]),2)+Math.pow(color.g-parseInt(previousColor[1]),2)+Math.pow(color.b-parseInt(previousColor[2]),2);
+	    		if(diff<12){
+	    			img.setPixelColor(newHex,i,j);
+	    		}
+	    	}
+	    }
+
+	    iterator++;
+	    document.getElementById('iterator').innerHTML = iterator;
+	    img.write(".//temp//"+iterator+".jpg");
+	    setTimeout(function(){
+	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	addToHistory();
+	    }, 100);
+
 	});
 }
