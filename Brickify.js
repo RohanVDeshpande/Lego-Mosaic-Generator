@@ -11,22 +11,27 @@ function brickify(){
 	    }
 	    width = img.bitmap.width;
 	    height = img.bitmap.height;
-	    for(var i =0; i<width;i++){
+	    if(width>300 && height>300){
+	    	alert('Image Size is too large!');
+	    }
+	    else{
+	    	for(var i =0; i<width;i++){
 	    	for(var j=0; j<height;j++){
 	    		//console.log(i+', '+j);
 	    		color = Jimp.intToRGBA(img.getPixelColor(i,j));
 	    		//console.log(color);
 	    		pixelError(color, i, j);
-	    	}
-	    }
+		    	}
+		    }
 
-	    iterator++;
-	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(".//temp//"+iterator+".jpg");
-	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
-	    	addToHistory();
-	    }, 100);
+		    iterator++;
+		    document.getElementById('iterator').innerHTML = iterator;
+		    img.write(".//temp//"+iterator+".jpg");
+		    setTimeout(function(){
+		    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+		    	addToHistory();
+		    }, 100);
+	    }
 
 
 	    function pixelError(pixelColor, x, y){

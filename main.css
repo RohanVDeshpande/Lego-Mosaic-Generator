@@ -143,3 +143,57 @@ BUTTON STYLING:
   width: 100%;
   left: 0;
 }
+
+/*
+*	CSS STYLE FOR ALERT BOX
+*/
+
+#alertBox {
+	position:relative;
+	width:33%;
+	min-height:100px;
+	max-height:400px;
+	margin-top:50px;
+	border:1px solid #fff;
+	background-color:#fff;
+	background-repeat:no-repeat;
+	top:30%;
+}
+
+#modalContainer > #alertBox {
+	position:fixed;
+}
+
+#alertBox h1 {
+	margin:0;
+	font:bold 1em Raleway,arial;
+	background-color:#f97352;
+	color:#FFF;
+	border-bottom:1px solid #f97352;
+	padding:10px 0 10px 5px;
+}
+
+#alertBox p {
+	height:50px;
+	color: black;
+	padding-left:5px;
+	padding-top:30px;
+	text-align:center;
+	vertical-align:middle;
+}
+
+#alertBox #closeBtn {
+	display:block;
+	position:relative;
+	margin:10px auto 10px auto;
+	padding:7px;
+	border:0 none;
+	width:70px;
+	text-transform:uppercase;
+	text-align:center;
+	color:#FFF;
+	background-color:#f97352;
+	border-radius: 0px;
+	text-decoration:none;
+	outline:0!important;
+}
