@@ -166,23 +166,23 @@ BUTTON STYLING:
 
 #alertBox h1 {
 	margin:0;
-	font:bold 1em Raleway,arial;
 	background-color:#f97352;
 	color:#FFF;
 	border-bottom:1px solid #f97352;
 	padding:10px 0 10px 5px;
+	text-align: center;
 }
 
 #alertBox p {
 	height:50px;
 	color: black;
 	padding-left:5px;
-	padding-top:30px;
+	padding-top:10px;
 	text-align:center;
 	vertical-align:middle;
 }
 
-#alertBox #closeBtn {
+#yesBtn, #noBtn {
 	display:block;
 	position:relative;
 	margin:10px auto 10px auto;
@@ -196,4 +196,12 @@ BUTTON STYLING:
 	border-radius: 0px;
 	text-decoration:none;
 	outline:0!important;
+}
+
+#yesBtn{
+	color: black;
+    background: white;
+    border: 2px solid #f97352;
+    width: 60px;
+    padding: 5px;
 }

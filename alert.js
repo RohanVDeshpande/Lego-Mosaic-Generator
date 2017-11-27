@@ -1,5 +1,6 @@
 var ALERT_TITLE = "Warning!";
-var ALERT_BUTTON_TEXT = "Ok";
+var YES_BUTTON_TEXT = "Yes";
+var NO_BUTTON_TEXT = "No";
 
 if(document.getElementById) {
 	window.alert = function(txt) {
@@ -29,12 +30,21 @@ function createCustomAlert(txt) {
 	//msg.appendChild(d.createTextNode(txt));
 	msg.innerHTML = txt;
 
-	btn = alertObj.appendChild(d.createElement("a"));
-	btn.id = "closeBtn";
-	btn.appendChild(d.createTextNode(ALERT_BUTTON_TEXT));
-	btn.href = "#";
-	btn.focus();
-	btn.onclick = function() { removeCustomAlert();return false; }
+	btnN = alertObj.appendChild(d.createElement("a"));
+	btnN.id = "noBtn";
+	btnN.appendChild(d.createTextNode(NO_BUTTON_TEXT));
+	btnN.href = "#";
+	btnN.focus();
+	btnN.onclick = function() { removeCustomAlert();return false; }
+
+
+	btnY = alertObj.appendChild(d.createElement("a"));
+	btnY.id = "yesBtn";
+	btnY.appendChild(d.createTextNode(YES_BUTTON_TEXT));
+	btnY.href = "#";
+	btnY.focus();
+	btnY.onclick = function() { removeCustomAlert();return false; }
+
 
 	alertObj.style.display = "block";
 	
@@ -46,3 +56,4 @@ function removeCustomAlert() {
 function ful(){
 alert('Alert this pages');
 }
+

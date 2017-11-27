@@ -12,7 +12,7 @@ function brickify(){
 	    width = img.bitmap.width;
 	    height = img.bitmap.height;
 	    if(width>300 && height>300){
-	    	alert('Image Size is too large!');
+	    	alert('Image Size is too large!<br>Are you sure you want to continue?');
 	    }
 	    else{
 	    	for(var i =0; i<width;i++){
