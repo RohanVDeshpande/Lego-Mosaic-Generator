@@ -123,6 +123,8 @@ function updateDimensions(path){
 	    	console.log(err)
 	    }
 	    document.getElementById('imgWidth').innerHTML = img.bitmap.width;
+	    document.getElementById('mWidth').value = img.bitmap.width
 		document.getElementById('imgHeight').innerHTML = img.bitmap.height;
+		document.getElementById('mHeight').value = img.bitmap.height
 	});
 }
