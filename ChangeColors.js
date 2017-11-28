@@ -38,12 +38,37 @@ function changeColor(){
 	    		//console.log(i+', '+j);
 	    		color = Jimp.intToRGBA(img.getPixelColor(i,j));
 	    		diff = Math.pow(color.r-parseInt(previousColor[0]),2)+Math.pow(color.g-parseInt(previousColor[1]),2)+Math.pow(color.b-parseInt(previousColor[2]),2);
-	    		if(diff<12){
+	    		if(diff<20){
 	    			img.setPixelColor(newHex,i,j);
 	    		}
+
 	    	}
 	    }
-
+	    /*
+	    var ul = document.getElementById('allColors');
+		var elements = ul.getElementsByTagName('li');
+		if(elements != null){
+			var addColor = true;
+			var addColorIndex = -1;
+			console.log(previousColor);
+			console.log(newColor);
+			for(var i =0; i<elements.length; i++){
+				var panelColorStr = elements[i].style.backgroundColor;
+				var panelColor = panelColorStr.substring(4, panelColorStr.length-1).replace(/ /g,'').split(',');
+				console.log(panelColor);
+				if(panelColor == previousColor){
+					addColorIndex = i;
+					console.log('true')
+				}
+				else if(panelColor == newColor){
+					addColor = false;
+				}
+			}
+			if(addColor){
+				elements[addColorIndex].style.backgroundColor = newColorStr;
+			}
+		}
+		*/
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
