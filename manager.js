@@ -53,8 +53,8 @@ function linkImage(imgPath, id){
 	    }, 100);
 	});
 }*/
-document.getElementById('Grayscale').addEventListener('click',function(){
-    Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+function makeGrayscale(){
+	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
 	    	console.log(err)
 	    }
@@ -68,7 +68,7 @@ document.getElementById('Grayscale').addEventListener('click',function(){
 	    	addToHistory();
 	    }, 100);
 	});
-},false);
+}
 
 function addToHistory(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);

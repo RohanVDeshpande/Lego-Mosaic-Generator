@@ -57,6 +57,8 @@ canvas{
 #img-history{
 	list-style: none;
     padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
 }
 #img-history li{
 	padding: 10px;
