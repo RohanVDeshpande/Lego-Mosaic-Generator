@@ -54,8 +54,25 @@ canvas{
 	border-top-left-radius: 0px;*/
 	width: 100%;
 }
+#img-history{
+	list-style: none;
+    padding: 0;
+}
+#img-history li{
+	padding: 10px;
+    margin-right: 20px;
+    background-color: #313137;
+    border-bottom: 1px solid black;
+}
 #img-history img{
 	width: 100px;
+	margin-left: 20px;
+}
+#img-history span{
+	float: right;
+    position: relative;
+    top: 40px;
+    margin-right: 35px;
 }
 .inactive{
 	display: none;
