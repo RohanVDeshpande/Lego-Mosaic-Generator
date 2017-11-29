@@ -70,9 +70,10 @@ function changeColor(){
 			}
 			if(addColor){
 				elements[addColorIndex].style.backgroundColor = newColorStr;
+				elements[addColorIndex].innerHTML = newColor;
 			}
 			else{
-				elements[removeColorIndex].outerHTML = "";
+				elements[addColorIndex].outerHTML = "";
 			}
 		}
 		
