@@ -31,8 +31,10 @@ function brickInstructions(){
 	    	}
 	    	matrix.push(row);
 	    }
+	    console.log('Matrix:');
 	    printMatrix(matrix);
-
+		console.log('Convolution Matrix:');
+	    convolution(matrix, [[1,1],[1,1]], true, true);
 
 
 	    iterator++;
@@ -44,6 +46,44 @@ function brickInstructions(){
 	    }, 100);
 	});
 }
+
+
+
+/*
+//Function: convolution()
+//Parameters: input Matrix, kernel, should average T/F?, should round down T/F?
+//Return: convoluded matrix
+*********************************************
+//Applies convolusion to input matrix
+*/
+function convolution(matrix, kernel, average, round){
+	var matrixWidth = matrix[0].length;
+	var matrixHeight = matrix.length;
+	var kernelWidth = kernel[0].length;
+	var kernelHeight = kernel.length;
+	var convMatrix = [];
+	for(var i = 0; i<matrixHeight - kernelHeight + 1; i++){
+		var convRow = [];
+		for(var j = 0; j<matrixWidth - kernelWidth + 1; j++){
+			var sum = 0;
+			for(var a=0; a< kernelHeight;a++){
+				for(var b = 0; b<kernelWidth;b++){
+					sum += matrix[i+a][j+b]*kernel[a][b];
+				}
+			}
+			if(average){
+				sum/= (kernelWidth * kernelHeight);
+			}
+			if(round){
+				sum = Math.floor(sum);
+			}
+			convRow.push(sum);
+		}
+		convMatrix.push(convRow);
+	}
+	printMatrix(convMatrix);
+}
+
 
 
 
