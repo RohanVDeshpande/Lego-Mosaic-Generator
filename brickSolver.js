@@ -34,8 +34,9 @@ function brickInstructions(){
 	    console.log('Matrix:');
 	    printMatrix(matrix);
 		console.log('Convolution Matrix:');
-	    convolution(matrix, [[1,1],[1,1]], true, true);
-
+	    convmatrix = convolution(matrix, [[1,1],[1,1]], true, true);
+	    matrix = matrixSubtract(convMatrix, matrix);
+	    printMatrix(matrix);
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -82,8 +83,35 @@ function convolution(matrix, kernel, average, round){
 		convMatrix.push(convRow);
 	}
 	printMatrix(convMatrix);
+	return convMatrix;
 }
 
+
+/*
+//Matrix Substraction Function
+//Parameters: Matrix1, Matrix2
+//Return Matrix3
+*********************************************
+//
+*/
+
+function matrixSubtract(matrix1, matrix2){
+	if(matrix1.length == matrix2.length && matrix2[0].length == matrix1[0].length){
+		var resMatrix = [];
+		for(var i = 0; i<matrix1.length; i++){
+			var resRow = [];
+			for(var j = 0; j<matrix1[0].length; j++){
+				var res = matrix1[j][i] - matrix2[j][i];
+				resRow.push(res);
+			}
+			resMatrix.push(resRow);
+		}
+		return resMatrix;
+	}
+	else{
+		return [];
+	}
+}
 
 
 
