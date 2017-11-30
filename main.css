@@ -59,6 +59,7 @@ canvas{
     padding: 0;
     max-height: 300px;
     overflow-y: auto;
+    image-rendering: pixelated;
 }
 #img-history li{
 	padding: 10px;
