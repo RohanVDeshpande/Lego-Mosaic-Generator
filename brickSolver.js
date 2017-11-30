@@ -3,6 +3,15 @@ var Jimp = require("jimp");
 var path = ".//temp//";
 var forEach = require('async-foreach').forEach;
 
+
+/*
+//function: brickInstructions()
+*********************************************
+//called from left panel icon...
+//... reads black/whie image and constructs matrix
+//runs 2x2 convolution (!in progress)
+*/
+
 function brickInstructions(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
@@ -24,6 +33,8 @@ function brickInstructions(){
 	    }
 	    printMatrix(matrix);
 
+
+
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
@@ -34,6 +45,14 @@ function brickInstructions(){
 	});
 }
 
+
+
+/*
+//Prints Matrix in console
+*********************************************
+//Make sure console timestamp is turned on...
+//... so that console log does not stack
+*/
 
 function printMatrix(matrix){
 	var width = matrix[0].length;
