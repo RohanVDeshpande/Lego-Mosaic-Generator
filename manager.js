@@ -54,6 +54,7 @@ function linkImage(imgPath, id){
 	});
 }*/
 function makeGrayscale(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
 	    	console.log(err)
