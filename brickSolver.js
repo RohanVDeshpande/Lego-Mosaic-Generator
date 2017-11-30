@@ -34,8 +34,9 @@ function brickInstructions(){
 	    console.log('Matrix:');
 	    printMatrix(matrix);
 		console.log('Convolution Matrix:');
-	    convmatrix = convolution(matrix, [[1,1],[1,1]], true, true);
-	    matrix = matrixSubtract(convMatrix, matrix);
+	    var convmatrix = convolution(matrix, [[1,1],[1,1]], true, true, true);
+	    console.log('Substraction Matrix:')
+	    matrix = matrixSubtract(matrix, convmatrix);
 	    printMatrix(matrix);
 
 	    iterator++;
@@ -52,12 +53,12 @@ function brickInstructions(){
 
 /*
 //Function: convolution()
-//Parameters: input Matrix, kernel, should average T/F?, should round down T/F?
+//Parameters: input Matrix, kernel, should average T/F?, should round down T/F?, append 0 T/F?
 //Return: convoluded matrix
 *********************************************
 //Applies convolusion to input matrix
 */
-function convolution(matrix, kernel, average, round){
+function convolution(matrix, kernel, average, round, append){
 	var matrixWidth = matrix[0].length;
 	var matrixHeight = matrix.length;
 	var kernelWidth = kernel[0].length;
@@ -80,7 +81,17 @@ function convolution(matrix, kernel, average, round){
 			}
 			convRow.push(sum);
 		}
+		if(append){
+			convRow.push(0);
+		}
 		convMatrix.push(convRow);
+	}
+	if(append){
+		var zeroRow = [];
+		for(var k =0; k<matrixWidth+1;k++){
+			zeroRow.push(0);
+		}
+		convMatrix.push(zeroRow)
 	}
 	printMatrix(convMatrix);
 	return convMatrix;
@@ -123,11 +134,15 @@ function matrixSubtract(matrix1, matrix2){
 */
 
 function printMatrix(matrix){
+	if(matrix == null){
+		console.log("NULL Matrix ERR!");
+		return;
+	}
 	var width = matrix[0].length;
 	for(var i = 0; i<matrix.length;i++){
 		var line = "";
 		for(var j=0; j<width;j++){
-			line+= matrix[i][j] +" ";
+			line+= matrix[i][j] +"  ";
 		}
 		console.log(line);
 	}
