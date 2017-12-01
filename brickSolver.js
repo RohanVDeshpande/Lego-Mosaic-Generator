@@ -36,10 +36,11 @@ function brickInstructions(){
 		console.log('Convolution Matrix:');
 	    var convmatrix = convolution(matrix, [[1,1],[1,1]], true, true, true);
 	    console.log('Conv+Kernel Matrix:')
-	    convmatrix = insertKernel(convmatrix, [[1,1],[1,1]]);
 	    printMatrix(convmatrix);
+	    convmatrix2 = insertKernel(convmatrix, [[1,1],[1,1]]);
+	    printMatrix(convmatrix2);
 	    console.log('Substraction Matrix:')
-	    matrix = matrixSubtract(matrix, convmatrix);
+	    matrix = matrixSubtract(matrix, convmatrix2);
 	    printMatrix(matrix);
 
 	    iterator++;
@@ -96,7 +97,6 @@ function convolution(matrix, kernel, average, round, append){
 		}
 		convMatrix.push(zeroRow)
 	}
-	printMatrix(convMatrix);
 	return convMatrix;
 }
 
@@ -115,7 +115,7 @@ function matrixSubtract(matrix1, matrix2){
 		for(var i = 0; i<matrix1.length; i++){
 			var resRow = [];
 			for(var j = 0; j<matrix1[0].length; j++){
-				var res = matrix1[j][i] - matrix2[j][i];
+				var res = matrix1[i][j] - matrix2[i][j];
 				resRow.push(res);
 			}
 			resMatrix.push(resRow);
@@ -134,10 +134,18 @@ function matrixSubtract(matrix1, matrix2){
 */
 
 function insertKernel(matrix, kernel){
-	var result = matrix;
+	var result = [];
+	for(var i = 0; i< matrix.length; i++){
+		var rowRes = [];
+		for(var j = 0; j<matrix[0].length;j++){
+			rowRes.push(0);
+		}
+		result.push(rowRes);
+	}
 	for(var i = 0; i < matrix.length; i++){
 		for(var j = 0; j < matrix[0].length; j++){
-			if(matrix[j][i]==1){
+			if(matrix[i][j]==1){
+				console.log('i:'+i+'\t'+'j:'+j);
 				for(var a = 0; a < kernel.length; a++){
 					for(var b=0; b < kernel[0].length; b++){
 						result[i+a][j+b] = kernel[a][b];
