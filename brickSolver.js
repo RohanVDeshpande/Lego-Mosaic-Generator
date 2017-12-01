@@ -49,11 +49,16 @@ function brickInstructions(){
 
 	    console.log('Solution List:');
 	    solList = solutionList(convmatrix, [[1,1]])
-	    printMatrix(solList);
+	    for(var k = 0; k < solList.length; k++){
+	    	console.log('Solution Number '+k);
+	    	printMatrix(solList[k]);
+	    }
 
+	    /*
 	    console.log('Conv+Kernel Matrix:')
 	    convmatrix = insertKernel(convmatrix, [[1,1]]);
 	    printMatrix(convmatrix);
+		*/
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -124,23 +129,55 @@ function convolution(matrix, kernel, average, round, append){
 function solutionList(convMatrix, kernel){
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
-	for(var i = 0; i < convMatrix.length - kernelHeight + 1; i++){
-		for(var j = 0; j < convMatrix[0].length - kernelWidth + 1; j++){
-			if(convMatrix[i][j] == 1){
-				console.log('i:'+i+'\tj:'+j);
-				for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
-					for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
-						console.log('a:'+a+'\tb:'+b);
-						if(!(a==0 && b==0)){
-							convMatrix[i+a][j+b] = 0;
+
+	coordList = convCoordinates(convMatrix);
+
+	var solutionMatrices = [];
+
+	for(var k = 0; k < coordList.length; k++){
+		var convMat = convMatrix;
+		for(var i = coordList[k][1]; i < convMatrix.length - kernelHeight + 1; i++){
+			for(var j = coordList[k][0]; j < convMatrix[0].length - kernelWidth + 1; j++){
+				if(convMat[i][j] == 1){
+					console.log('i:'+i+'\tj:'+j);
+					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
+						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
 							console.log('a:'+a+'\tb:'+b);
+							if(!(a==0 && b==0)){
+								convMat[i+a][j+b] = 0;
+								console.log('a:'+a+'\tb:'+b);
+							}
 						}
 					}
 				}
 			}
 		}
+		solutionMatrices.push(convMat);
 	}
-	return convMatrix;
+	return solutionMatrices;
+}
+
+/*
+//convCoordinates(convMat)
+//Parameters: convolution Matrix
+*********************************************
+//Returns coordinates [[x1,y1],[x2,y2]...] of pixel
+*/
+
+function convCoordinates(convMatrix){
+	var coordinates = [];
+	for(var i = 0; i < convMatrix.length; i++){
+		for(var j = 0; j < convMatrix[0].length; j++){
+			if(convMatrix[i][j] == 1){
+				var coordinate = [];
+				coordinate.push(j);	//x coordinate
+				coordinate.push(i); //y coordinate
+				coordinates.push(coordinate);
+			}
+		}
+	}
+	console.log(coordinates);
+	return coordinates;
 }
 
 
