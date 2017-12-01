@@ -35,6 +35,9 @@ function brickInstructions(){
 	    printMatrix(matrix);
 		console.log('Convolution Matrix:');
 	    var convmatrix = convolution(matrix, [[1,1],[1,1]], true, true, true);
+	    console.log('Conv+Kernel Matrix:')
+	    convmatrix = insertKernel(convmatrix, [[1,1],[1,1]]);
+	    printMatrix(convmatrix);
 	    console.log('Substraction Matrix:')
 	    matrix = matrixSubtract(matrix, convmatrix);
 	    printMatrix(matrix);
@@ -124,6 +127,28 @@ function matrixSubtract(matrix1, matrix2){
 	}
 }
 
+/*
+//insertKernel(matrix, kernel)
+*********************************************
+//Insert Kernel into Convolution Matrix
+*/
+
+function insertKernel(matrix, kernel){
+	var result = matrix;
+	for(var i = 0; i < matrix.length; i++){
+		for(var j = 0; j < matrix[0].length; j++){
+			if(matrix[j][i]==1){
+				for(var a = 0; a < kernel.length; a++){
+					for(var b=0; b < kernel[0].length; b++){
+						result[i+a][j+b] = kernel[a][b];
+					}
+				}
+			}
+		}
+	}
+
+	return result;
+}
 
 
 /*
