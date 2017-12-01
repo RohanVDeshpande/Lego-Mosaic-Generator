@@ -46,6 +46,11 @@ function brickInstructions(){
 	    convmatrix = convolution(matrix, [[1,1]], true, true, true);
 	    console.log('1x2 Conv:');
 	    printMatrix(convmatrix);
+
+	    console.log('Solution List:');
+	    solList = solutionList(convmatrix, [[1,1]])
+	    printMatrix(solList);
+
 	    console.log('Conv+Kernel Matrix:')
 	    convmatrix = insertKernel(convmatrix, [[1,1]]);
 	    printMatrix(convmatrix);
@@ -103,6 +108,37 @@ function convolution(matrix, kernel, average, round, append){
 			zeroRow.push(0);
 		}
 		convMatrix.push(zeroRow)
+	}
+	return convMatrix;
+}
+
+/*
+//solutionList(convMatrix, kernel)
+//Parameters: convolution matrix, kernel
+//Return: List of potential solutions
+*********************************************
+//Eliminates overlapping bricks...
+//... iterates to create all potential solutions
+*/
+
+function solutionList(convMatrix, kernel){
+	var kernelWidth = kernel[0].length;
+	var kernelHeight = kernel.length;
+	for(var i = 0; i < convMatrix.length - kernelHeight + 1; i++){
+		for(var j = 0; j < convMatrix[0].length - kernelWidth + 1; j++){
+			if(convMatrix[i][j] == 1){
+				console.log('i:'+i+'\tj:'+j);
+				for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
+					for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
+						console.log('a:'+a+'\tb:'+b);
+						if(!(a==0 && b==0)){
+							convMatrix[i+a][j+b] = 0;
+							console.log('a:'+a+'\tb:'+b);
+						}
+					}
+				}
+			}
+		}
 	}
 	return convMatrix;
 }
