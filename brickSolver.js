@@ -33,15 +33,22 @@ function brickInstructions(){
 	    }
 	    console.log('Matrix:');
 	    printMatrix(matrix);
-		console.log('Convolution Matrix:');
+		console.log('2x2 Convolution Matrix:');
 	    var convmatrix = convolution(matrix, [[1,1],[1,1]], true, true, true);
-	    console.log('Conv+Kernel Matrix:')
 	    printMatrix(convmatrix);
-	    convmatrix2 = insertKernel(convmatrix, [[1,1],[1,1]]);
-	    printMatrix(convmatrix2);
+	    console.log('Conv+Kernel Matrix:');
+	    convmatrix = insertKernel(convmatrix, [[1,1],[1,1]]);
+	    printMatrix(convmatrix);
 	    console.log('Substraction Matrix:')
-	    matrix = matrixSubtract(matrix, convmatrix2);
+	    matrix = matrixSubtract(matrix, convmatrix);
 	    printMatrix(matrix);
+
+	    convmatrix = convolution(matrix, [[1,1]], true, true, true);
+	    console.log('1x2 Conv:');
+	    printMatrix(convmatrix);
+	    console.log('Conv+Kernel Matrix:')
+	    convmatrix = insertKernel(convmatrix, [[1,1]]);
+	    printMatrix(convmatrix);
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -134,18 +141,10 @@ function matrixSubtract(matrix1, matrix2){
 */
 
 function insertKernel(matrix, kernel){
-	var result = [];
-	for(var i = 0; i< matrix.length; i++){
-		var rowRes = [];
-		for(var j = 0; j<matrix[0].length;j++){
-			rowRes.push(0);
-		}
-		result.push(rowRes);
-	}
+	var result = zero(matrix[0].length, matrix.length);
 	for(var i = 0; i < matrix.length; i++){
 		for(var j = 0; j < matrix[0].length; j++){
 			if(matrix[i][j]==1){
-				console.log('i:'+i+'\t'+'j:'+j);
 				for(var a = 0; a < kernel.length; a++){
 					for(var b=0; b < kernel[0].length; b++){
 						result[i+a][j+b] = kernel[a][b];
@@ -179,4 +178,21 @@ function printMatrix(matrix){
 		}
 		console.log(line);
 	}
+}
+
+/*
+//zero(width, height)
+*********************************************
+//Create Zero Matrix of specified width and height
+*/
+function zero(width, height){
+	var result = [];
+	for(var i = 0; i< height; i++){
+		var rowRes = [];
+		for(var j = 0; j< width;j++){
+			rowRes.push(0);
+		}
+		result.push(rowRes);
+	}
+	return result;
 }
