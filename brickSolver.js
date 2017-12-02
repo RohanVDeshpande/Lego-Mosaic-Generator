@@ -33,22 +33,27 @@ function brickInstructions(){
 	    }
 	    console.log('Matrix:');
 	    printMatrix(matrix);
+
+	    var kernel = [[1,1],[1,1]];
+
 		console.log('2x2 Convolution Matrix:');
-	    var convmatrix = convolution(matrix, [[1,1],[1,1]], true, true, true);
+	    var convmatrix = convolution(matrix, kernel, true, true, true);
 	    printMatrix(convmatrix);
 	    console.log('Conv+Kernel Matrix:');
-	    convmatrix = insertKernel(convmatrix, [[1,1],[1,1]]);
+	    convmatrix = insertKernel(convmatrix, kernel);
 	    printMatrix(convmatrix);
 	    console.log('Substraction Matrix:')
 	    matrix = matrixSubtract(matrix, convmatrix);
 	    printMatrix(matrix);
 
-	    convmatrix = convolution(matrix, [[1,1]], true, true, true);
+	    kernel = [[1,1]];
+
+	    convmatrix = convolution(matrix, kernel, true, true, true);
 	    console.log('1x2 Conv:');
 	    printMatrix(convmatrix);
 
 	    console.log('Solution List:');
-	    solList = solutionList(convmatrix, [[1,1]])
+	    solList = solutionList(convmatrix, kernel)
 	    for(var k = 0; k < solList.length; k++){
 	    	console.log('Solution Number '+k);
 	    	printMatrix(solList[k]);
