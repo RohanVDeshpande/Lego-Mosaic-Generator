@@ -35,9 +35,23 @@ function brickInstructions(){
 	    printMatrix(matrix);
 
 	    var allSolutions = [];
+	    allSolutions.push(makeObject(matrix));
 
 	    var kernel = [[1,1],[1,1]];
 
+	    var tempSolutions = [];
+	    for(var k=0; k<allSolutions.length;k++){
+	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
+	    	solList = solutionList(tempConv, kernel);
+	    	for(var l = 0; l < solList.length; l++){
+	    		tempSolutions.push(solList[l]);
+	    	}
+	    }
+	    for(var k = 0; k<tempSolutions.length; k++){
+	    	printMatrix(tempSolutions[k].data);
+	    }
+
+	    /*
 		console.log('2x2 Convolution Matrix:');
 	    var convmatrix = convolution(matrix, kernel, true, true, true);
 	    printMatrix(convmatrix);
@@ -60,6 +74,7 @@ function brickInstructions(){
 	    	console.log('Solution Number '+k);
 	    	printMatrix(solList[k]);
 	    }
+	    */
 
 	    /*
 	    console.log('Conv+Kernel Matrix:')
@@ -133,7 +148,8 @@ function convolution(matrix, kernel, average, round, append){
 //... iterates to create all potential solutions
 */
 
-function solutionList(convMatrix, kernel){
+function solutionList(inputObj, kernel){
+	convMatrix = inputObj.data;
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
 
@@ -159,7 +175,8 @@ function solutionList(convMatrix, kernel){
 				}
 			}
 		}
-		solutionMatrices.push(convMat);
+		convMatObj = makeObject(convMat,kernel, inputMatrix);
+		solutionMatrices.push(convMatObj);
 	}
 	return solutionMatrices;
 }
@@ -244,13 +261,32 @@ function insertKernel(matrix, kernel){
 */
 
 
+function makeObject(inputMatrix, kernel, previousObj){
+	var object = {
+		data: inputMatrix,
+		'N2x2':previousObj.N2x2,
+		'N2x1':previousObj.N2x1,
+		'N1x2':previousObj.N1x2,
+		'N1x1':previousObj.N1x1
+	}
+	return object;
+}
+
+
+/*
+//makeObject(inputMatrix)
+*********************************************
+//creates object that stores the matrix and number of each brick
+*/
+
+
 function makeObject(inputMatrix){
 	var object = {
 		data: inputMatrix,
-		'2x2':0,
-		'2x1':0,
-		'1x2':0,
-		'1x1':0
+		'N2x2':0,
+		'N2x1':0,
+		'N1x2':0,
+		'N1x1':0
 	}
 	return object;
 }
