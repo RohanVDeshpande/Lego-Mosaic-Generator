@@ -34,6 +34,8 @@ function brickInstructions(){
 	    console.log('Matrix:');
 	    printMatrix(matrix);
 
+	    var allSolutions = [];
+
 	    var kernel = [[1,1],[1,1]];
 
 		console.log('2x2 Convolution Matrix:');
@@ -235,6 +237,23 @@ function insertKernel(matrix, kernel){
 	return result;
 }
 
+/*
+//makeObject(inputMatrix)
+*********************************************
+//creates object that stores the matrix and number of each brick
+*/
+
+
+function makeObject(inputMatrix){
+	var object = {
+		data: inputMatrix,
+		'2x2':0,
+		'2x1':0,
+		'1x2':0,
+		'1x1':0
+	}
+	return object;
+}
 
 /*
 //Prints Matrix in console
