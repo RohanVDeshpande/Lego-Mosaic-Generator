@@ -48,7 +48,7 @@ function brickInstructions(){
 	    	}
 	    }
 	    for(var k = 0; k<tempSolutions.length; k++){
-	    	print(tempSolutions[k])
+	    	console.log(tempSolutions[k]);
 	    	printMatrix(tempSolutions[k].data);
 	    }
 
@@ -175,9 +175,8 @@ function solutionList(convMatrix, kernel, orgObject){
 				}
 			}
 		}
-		var temp = orgObject;
-		temp.Qty.N2x2 +=
-		temp.data = convMat;
+		var temp = editObject(convMat, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		console.log(temp);
 		solutionMatrices.push(temp);
 	}
 	return solutionMatrices;
@@ -262,20 +261,20 @@ function insertKernel(matrix, kernel){
 //creates object that stores the matrix and number of each brick
 */
 
-/*
-function editObject(inputMatrix, kernel, previousObj){
+
+function editObject(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
 	var object = {
 		data: inputMatrix,
 		Qty:{
-			N2x2:previousObj.N2x2,
-			N2x1:previousObj.N2x1,
-			N1x2:previousObj.N1x2,
-			N1x1:previousObj.N1x1
+			N2x2:inputN2x2,
+			N2x1:inputN2x1,
+			N1x2:inputN1x2,
+			N1x1:inputN1x1
 		}
 	}
 	return object;
 }
-*/
+
 
 /*
 //makeObject(inputMatrix)
