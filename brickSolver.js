@@ -37,9 +37,21 @@ function brickInstructions(){
 	    var allSolutions = [];
 	    allSolutions.push(makeObject(matrix));
 
-	    var kernel = [[1,1],[1,1]];
+	    var kernel1 = [[1,1],[1,1]];
+	    var kernel2 = [[1,1]];
+	    var kernel3 = [[1],[1]];
 
-	    var tempSolutions = [];
+	    var kernelList = [];
+	    kernelList.push(kernel1);
+	    kernelList.push(kernel2);
+	    kernelList.push(kernel3);
+
+	    //kernelList.length
+	    for(var a = 0; a<kernelList.length;a++){
+	    	console.log('round '+a);
+	    	allSolutions = solutionController(allSolutions, kernelList[a]);
+	    }
+	    /*
 	    for(var k=0; k<allSolutions.length;k++){
 	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
 	    	solList = solutionList(tempConv, kernel,allSolutions[k]);
@@ -51,7 +63,7 @@ function brickInstructions(){
 	    	console.log(tempSolutions[k]);
 	    	printMatrix(tempSolutions[k].data);
 	    }
-
+		*/
 	    /*
 		console.log('2x2 Convolution Matrix:');
 	    var convmatrix = convolution(matrix, kernel, true, true, true);
@@ -94,6 +106,30 @@ function brickInstructions(){
 }
 
 
+/*
+//Function: solutionController()
+//Parameters: input Matrix, kernel, should average T/F?, should round down T/F?, append 0 T/F?
+//Return: convoluded matrix
+*********************************************
+//Applies convolusion to input matrix
+*/
+function solutionController(solutions, kernel){
+	var tempSolutions = [];
+	for(var k=0; k<solutions.length;k++){
+    	var tempConv = convolution(solutions[k].data, kernel, true, true);
+    	solList = solutionList(tempConv, kernel,solutions[k]);
+    	console.log(solList);
+    	for(var l = 0; l < solList.length; l++){
+    		tempSolutions.push(solList[l]);
+    	}
+    }
+	for(var k = 0; k<tempSolutions.length; k++){
+		console.log(tempSolutions[k]);
+		printMatrix(tempSolutions[k].data);
+	}
+	return tempSolutions;
+}
+
 
 /*
 //Function: convolution()
@@ -102,7 +138,7 @@ function brickInstructions(){
 *********************************************
 //Applies convolusion to input matrix
 */
-function convolution(matrix, kernel, average, round, append){
+function convolution(matrix, kernel, average, round){
 	var matrixWidth = matrix[0].length;
 	var matrixHeight = matrix.length;
 	var kernelWidth = kernel[0].length;
@@ -125,17 +161,17 @@ function convolution(matrix, kernel, average, round, append){
 			}
 			convRow.push(sum);
 		}
-		if(append){
+		for(b =0; b<kernelWidth-1;b++){
 			convRow.push(0);
 		}
 		convMatrix.push(convRow);
 	}
-	if(append){
-		var zeroRow = [];
-		for(var k =0; k<matrixWidth+1;k++){
+	for(var a =0; a<kernelHeight-1;a++){
+		zeroRow = [];
+		for(var b =0; b<kernelWidth-1;b++){
 			zeroRow.push(0);
 		}
-		convMatrix.push(zeroRow)
+		convMatrix.push(zeroRow);
 	}
 	return convMatrix;
 }
@@ -162,21 +198,23 @@ function solutionList(convMatrix, kernel, orgObject){
 		for(var i = coordList[k][1]; i < convMatrix.length - kernelHeight + 1; i++){
 			for(var j = coordList[k][0]; j < convMatrix[0].length - kernelWidth + 1; j++){
 				if(convMat[i][j] == 1){
-					console.log('i:'+i+'\tj:'+j);
+					//console.log('i:'+i+'\tj:'+j);
 					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
 						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
-							console.log('a:'+a+'\tb:'+b);
+							//console.log('a:'+a+'\tb:'+b);
 							if(!(a==0 && b==0)){
 								convMat[i+a][j+b] = 0;
-								console.log('a:'+a+'\tb:'+b);
+								//console.log('a:'+a+'\tb:'+b);
 							}
 						}
 					}
 				}
 			}
 		}
-		var temp = editQty(convMat, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
-		temp.data = matrixSubtract(orgObject.data,insertKernel(convMat, kernel));
+		var iKer = insertKernel(convMat, kernel);
+		printMatrix(iKer);
+		var sub = matrixSubtract(orgObject.data, iKer);
+		var temp = editQty(sub, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
 		console.log(temp);
 		solutionMatrices.push(temp);
 	}
@@ -229,6 +267,7 @@ function matrixSubtract(matrix1, matrix2){
 		return resMatrix;
 	}
 	else{
+		console.log('out of bounds');
 		return [];
 	}
 }
@@ -310,10 +349,9 @@ function printMatrix(matrix){
 		console.log("NULL Matrix ERR!");
 		return;
 	}
-	var width = matrix[0].length;
 	for(var i = 0; i<matrix.length;i++){
 		var line = "";
-		for(var j=0; j<width;j++){
+		for(var j=0; j<matrix[0].length;j++){
 			line+= matrix[i][j] +"  ";
 		}
 		console.log(line);
