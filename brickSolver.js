@@ -176,6 +176,7 @@ function solutionList(convMatrix, kernel, orgObject){
 			}
 		}
 		var temp = editQty(convMat, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		temp.data = matrixSubtract(orgObject.data,insertKernel(convMat, kernel));
 		console.log(temp);
 		solutionMatrices.push(temp);
 	}
@@ -295,6 +296,7 @@ function makeObject(inputMatrix){
 	}
 	return object;
 }
+
 
 /*
 //Prints Matrix in console
