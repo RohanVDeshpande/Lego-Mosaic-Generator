@@ -40,16 +40,29 @@ function brickInstructions(){
 	    var kernel1 = [[1,1],[1,1]];
 	    var kernel2 = [[1,1]];
 	    var kernel3 = [[1],[1]];
+	    var kernel4 = [[1]];
 
 	    var kernelList = [];
 	    kernelList.push(kernel1);
 	    kernelList.push(kernel2);
 	    kernelList.push(kernel3);
+	    kernelList.push(kernel4);
+
+	    var kernelKey = [];
+	    kernelKey1 = '2x2';
+	    kernelKey2 = '2x1';
+	    kernelKey3 = '1x2';
+	    kernelKey4 = '1x1';
+
+	    kernelKey.push(kernelKey1);
+	    kernelKey.push(kernelKey2);
+	    kernelKey.push(kernelKey3);
+	    kernelKey.push(kernelKey4);
 
 	    //kernelList.length
 	    for(var a = 0; a<kernelList.length;a++){
 	    	console.log('round '+a);
-	    	allSolutions = solutionController(allSolutions, kernelList[a]);
+	    	allSolutions = solutionController(allSolutions, kernelList[a], kernelKey[a]);
 	    }
 	    /*
 	    for(var k=0; k<allSolutions.length;k++){
@@ -113,11 +126,11 @@ function brickInstructions(){
 *********************************************
 //Applies convolusion to input matrix
 */
-function solutionController(solutions, kernel){
+function solutionController(solutions, kernel, kernelKey){
 	var tempSolutions = [];
 	for(var k=0; k<solutions.length;k++){
     	var tempConv = convolution(solutions[k].data, kernel, true, true);
-    	solList = solutionList(tempConv, kernel,solutions[k]);
+    	solList = solutionList(tempConv, kernel,solutions[k], kernelKey);
     	console.log(solList);
     	for(var l = 0; l < solList.length; l++){
     		tempSolutions.push(solList[l]);
@@ -185,13 +198,14 @@ function convolution(matrix, kernel, average, round){
 //... iterates to create all potential solutions
 */
 
-function solutionList(convMatrix, kernel, orgObject){
+function solutionList(convMatrix, kernel, orgObject, kernelKey){
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
 
 	coordList = convCoordinates(convMatrix);
 
 	var solutionMatrices = [];
+	var elementNums = 0;
 
 	for(var k = 0; k < coordList.length; k++){
 		var convMat = convMatrix;
@@ -208,14 +222,27 @@ function solutionList(convMatrix, kernel, orgObject){
 							}
 						}
 					}
+					elementNums++;
 				}
 			}
 		}
 		var iKer = insertKernel(convMat, kernel);
-		printMatrix(iKer);
 		var sub = matrixSubtract(orgObject.data, iKer);
-		var temp = editQty(sub, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
-		console.log(temp);
+		printMatrix(sub);
+		var temp;
+		if(kernelKey == '2x2'){
+			temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		}
+		else if(kernelKey == '2x1'){
+			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		}
+		else if(kernelKey == '1x2'){
+			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1);
+		}
+		else if(kernelKey == '1x1'){
+			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums);
+		}
+		//console.log(temp);
 		solutionMatrices.push(temp);
 	}
 	return solutionMatrices;
