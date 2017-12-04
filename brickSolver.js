@@ -60,7 +60,7 @@ function brickInstructions(){
 	    kernelKey.push(kernelKey4);
 
 	    //kernelList.length
-	    for(var a = 0; a<kernelList.length;a++){
+	    for(var a = 0; a<2;a++){
 	    	console.log('round '+a);
 	    	allSolutions = solutionController(allSolutions, kernelList[a], kernelKey[a]);
 	    }
@@ -199,36 +199,47 @@ function convolution(matrix, kernel, average, round){
 */
 
 function solutionList(convMatrix, kernel, orgObject, kernelKey){
+
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
 
 	coordList = convCoordinates(convMatrix);
 
 	var solutionMatrices = [];
-	var elementNums = 0;
 
 	for(var k = 0; k < coordList.length; k++){
+		console.log('Before:');
+		printMatrix(convMatrix);
 		var convMat = convMatrix;
-		for(var i = coordList[k][1]; i < convMatrix.length - kernelHeight + 1; i++){
-			for(var j = coordList[k][0]; j < convMatrix[0].length - kernelWidth + 1; j++){
-				if(convMat[i][j] == 1){
-					//console.log('i:'+i+'\tj:'+j);
+		var elementNums = 0;
+		for(var i = coordList[k][1]; i < convMatrix.length + coordList[k][1]; i++){
+			var start = 0;
+			if(i==coordList[k][1]){
+				start = coordList[k][0];
+			}
+			console.log('start: '+start);
+			for(var j = start; j < convMatrix[0].length; j++){
+				if(convMat[i%convMatrix.length][j] == 1){
+					console.log('i:'+i+'\tj:'+j);
 					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
 						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
 							//console.log('a:'+a+'\tb:'+b);
 							if(!(a==0 && b==0)){
-								convMat[i+a][j+b] = 0;
+								convMat[(i+a)%convMatrix.length][(j+b)%convMatrix[0].length] = 0;
 								//console.log('a:'+a+'\tb:'+b);
 							}
 						}
 					}
 					elementNums++;
+					//console.log('i: '+i+'\t'+'j: '+j);
 				}
 			}
 		}
+		console.log('ConvMat:');
+		printMatrix(convMat);
 		var iKer = insertKernel(convMat, kernel);
 		var sub = matrixSubtract(orgObject.data, iKer);
-		printMatrix(sub);
+		//printMatrix(sub);
 		var temp;
 		if(kernelKey == '2x2'){
 			temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
