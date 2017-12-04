@@ -412,3 +412,21 @@ function zero(width, height){
 	}
 	return result;
 }
+
+/*
+//copyMat(inputMat)
+*********************************************
+//copies maxtrix and returns new matrix
+*/
+
+function copyMat(inputMat){
+	var newMat = [];
+	for(var i = 0; i< inputMat.length; i++){
+		var rowRes = [];
+		for(var j = 0; j< inputMatrix[0].length; j++){
+			rowRes.push(inputMatrix[i][j]);
+		}
+		newMat.push(rowRes);
+	}
+	return newMat;
+}
