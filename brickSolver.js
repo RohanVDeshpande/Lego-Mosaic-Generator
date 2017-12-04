@@ -175,7 +175,7 @@ function solutionList(convMatrix, kernel, orgObject){
 				}
 			}
 		}
-		var temp = editObject(convMat, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		var temp = editQty(convMat, orgObject.Qty.N2x2+2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
 		console.log(temp);
 		solutionMatrices.push(temp);
 	}
@@ -256,13 +256,13 @@ function insertKernel(matrix, kernel){
 }
 
 /*
-//makeObject(inputMatrix)
+//editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1)
 *********************************************
-//creates object that stores the matrix and number of each brick
+//creates object that with new brick quantity
 */
 
 
-function editObject(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
+function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
 	var object = {
 		data: inputMatrix,
 		Qty:{
