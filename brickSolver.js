@@ -42,12 +42,13 @@ function brickInstructions(){
 	    var tempSolutions = [];
 	    for(var k=0; k<allSolutions.length;k++){
 	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
-	    	solList = solutionList(tempConv, kernel);
+	    	solList = solutionList(tempConv, kernel,allSolutions[k]);
 	    	for(var l = 0; l < solList.length; l++){
 	    		tempSolutions.push(solList[l]);
 	    	}
 	    }
 	    for(var k = 0; k<tempSolutions.length; k++){
+	    	print(tempSolutions[k])
 	    	printMatrix(tempSolutions[k].data);
 	    }
 
@@ -148,8 +149,7 @@ function convolution(matrix, kernel, average, round, append){
 //... iterates to create all potential solutions
 */
 
-function solutionList(inputObj, kernel){
-	convMatrix = inputObj.data;
+function solutionList(convMatrix, kernel, orgObject){
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
 
@@ -175,8 +175,10 @@ function solutionList(inputObj, kernel){
 				}
 			}
 		}
-		convMatObj = makeObject(convMat,kernel, inputMatrix);
-		solutionMatrices.push(convMatObj);
+		var temp = orgObject;
+		temp.Qty.N2x2 +=
+		temp.data = convMat;
+		solutionMatrices.push(temp);
 	}
 	return solutionMatrices;
 }
@@ -260,18 +262,20 @@ function insertKernel(matrix, kernel){
 //creates object that stores the matrix and number of each brick
 */
 
-
-function makeObject(inputMatrix, kernel, previousObj){
+/*
+function editObject(inputMatrix, kernel, previousObj){
 	var object = {
 		data: inputMatrix,
-		'N2x2':previousObj.N2x2,
-		'N2x1':previousObj.N2x1,
-		'N1x2':previousObj.N1x2,
-		'N1x1':previousObj.N1x1
+		Qty:{
+			N2x2:previousObj.N2x2,
+			N2x1:previousObj.N2x1,
+			N1x2:previousObj.N1x2,
+			N1x1:previousObj.N1x1
+		}
 	}
 	return object;
 }
-
+*/
 
 /*
 //makeObject(inputMatrix)
@@ -283,10 +287,12 @@ function makeObject(inputMatrix, kernel, previousObj){
 function makeObject(inputMatrix){
 	var object = {
 		data: inputMatrix,
-		'N2x2':0,
-		'N2x1':0,
-		'N1x2':0,
-		'N1x1':0
+		Qty:{
+			N2x2:0,
+			N2x1:0,
+			N1x2:0,
+			N1x1:0
+		}
 	}
 	return object;
 }
