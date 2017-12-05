@@ -69,7 +69,7 @@ function brickInstructions(){
 	    ];
 
 	    //kernelObj.length
-	    for(var a = 0; a<kernelObj.length;a++){
+	    for(var a = 0; a<2;a++){
 	    	console.log('round '+a);
 	    	//kernelObj[a].data, kernelObj[a].key
 	    	//kernelList[a], kernelKey[a]
@@ -206,27 +206,29 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				}
 			}
 		}
-		
-
-
-		var iKer = insertKernel(convMat, kernel);
-		var sub = matrixSubtract(orgObject.data, iKer);
-		//printMatrix(sub);
-		var temp;
-		if(kernelKey == '2x2'){
-			temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+		console.log(solutionMatrices.length);
+		printMatrix(convMat)
+		if(!matInList(solutionMatrices, convMat)){
+			console.log('^not in list')
+			var iKer = insertKernel(convMat, kernel);
+			var sub = matrixSubtract(orgObject.data, iKer);
+			//printMatrix(sub);
+			var temp;
+			if(kernelKey == '2x2'){
+				temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+			}
+			else if(kernelKey == '2x1'){
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+			}
+			else if(kernelKey == '1x2'){
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1);
+			}
+			else if(kernelKey == '1x1'){
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums);
+			}
+			//console.log(temp);
+			solutionMatrices.push(temp);
 		}
-		else if(kernelKey == '2x1'){
-			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
-		}
-		else if(kernelKey == '1x2'){
-			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1);
-		}
-		else if(kernelKey == '1x1'){
-			temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums);
-		}
-		//console.log(temp);
-		solutionMatrices.push(temp);
 	}
 	return solutionMatrices;
 }
@@ -405,11 +407,16 @@ function makeObject(inputMatrix){
 */
 
 function matEquals(matrix1, matrix2){
+	console.log('Matrix 1:');
+	printMatrix(matrix1);
+	console.log('Matrix 2:');
+	printMatrix(matrix2);
 	if(matrix1.length == matrix2.length && matrix1[0].length == matrix2[0].length){
 		var isEqual = true;
 		for(var i = 0; i < matrix1.length; i++){
 			for(var j = 0; j < matrix1[0].length; j++){
 				if(matrix1[i][j] != matrix2[i][j]){
+					console.log('false');
 					isEqual = false;
 				}
 			}
@@ -417,6 +424,7 @@ function matEquals(matrix1, matrix2){
 		return isEqual;
 	}
 	else{
+		console.log('dimension err');
 		return false;
 	}
 }
@@ -427,10 +435,10 @@ function matEquals(matrix1, matrix2){
 //Returns true if both matrices are equal
 */
 
-function matInList(matList, matrix1){
+function matInList(matListObj, matrix1){
 	var inList = false;
-	for(var i = 0; i<matList.length;i++){
-		if(matEquals(matList[i],matrix1)){
+	for(var r = 0; r<matListObj.length;r++){
+		if(matEquals(matListObj[r].data,matrix1)){
 			inList = true;
 		}
 	}
