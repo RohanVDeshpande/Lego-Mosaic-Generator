@@ -49,21 +49,21 @@ function brickInstructions(){
 	    		legoid:3023,
 	    		data:[[1,1]],
 	    		key:'2x1',
-	    		price:0.04
+	    		price:0.04,
 	    		color:[0,255,0]
 	    	},
 	    	{
 	    		legoid:3023,
 	    		data:[[1],[1]],
 	    		key:'1x2',
-	    		price:0.04
+	    		price:0.04,
 	    		color:[0,255,0]
 	    	},
 	    	{
 	    		legoid:3024,
 	    		data:[[1]],
 	    		key:'1x1',
-	    		price:0.07
+	    		price:0.07,
 	    		color:[0,0,255]
 	    	},
 	    ];
@@ -395,6 +395,29 @@ function makeObject(inputMatrix){
 		}
 	}
 	return object;
+}
+
+/*
+//matEquals(matrix1, matrix2)
+*********************************************
+//Returns true if both matrices are equal
+*/
+
+function matEquals(matrix1, matrix2){
+	if(matrix1.length == matrix2.length && matrix1[0].length == matrix2[0].length){
+		var isEqual = true;
+		for(var i = 0; i < matrix1.length; i++){
+			for(var j = 0; j < matrix1[0].length; j++){
+				if(matrix1[i][j] != matrix2[i][j]){
+					isEqual = false;
+				}
+			}
+		}
+		return isEqual;
+	}
+	else{
+		return false;
+	}
 }
 
 
