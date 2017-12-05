@@ -41,22 +41,22 @@ function brickInstructions(){
 	    	{
 	    		data:[[1,1],[1,1]],
 	    		key:'2x2',
-	    		price:1
+	    		price:0.05
 	    	},
 	    	{
 	    		data:[[1,1]],
 	    		key:'2x1',
-	    		price:1
+	    		price:0.04
 	    	},
 	    	{
 	    		data:[[1],[1]],
 	    		key:'1x2',
-	    		price:1
+	    		price:0.04
 	    	},
 	    	{
 	    		data:[[1]],
 	    		key:'1x1',
-	    		price:1
+	    		price:0.07
 	    	},
 	    ];
 	    /*
