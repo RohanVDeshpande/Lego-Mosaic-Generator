@@ -60,10 +60,11 @@ function brickInstructions(){
 	    kernelKey.push(kernelKey4);
 
 	    //kernelList.length
-	    for(var a = 0; a<2;a++){
+	    for(var a = 0; a<4;a++){
 	    	console.log('round '+a);
 	    	allSolutions = solutionController(allSolutions, kernelList[a], kernelKey[a]);
 	    }
+	    console.log('final solution numbers: '+ allSolutions.length);
 	    /*
 	    for(var k=0; k<allSolutions.length;k++){
 	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
@@ -208,19 +209,17 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 	var solutionMatrices = [];
 
 	for(var k = 0; k < coordList.length; k++){
-		console.log('Before:');
-		printMatrix(convMatrix);
-		var convMat = convMatrix;
+		//console.log('Before:');
+		//printMatrix(convMatrix);
+		var convMat = copyMat(convMatrix);
 		var elementNums = 0;
 		for(var i = coordList[k][1]; i < convMatrix.length + coordList[k][1]; i++){
 			var start = 0;
 			if(i==coordList[k][1]){
 				start = coordList[k][0];
 			}
-			console.log('start: '+start);
 			for(var j = start; j < convMatrix[0].length; j++){
 				if(convMat[i%convMatrix.length][j] == 1){
-					console.log('i:'+i+'\tj:'+j);
 					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
 						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
 							//console.log('a:'+a+'\tb:'+b);
@@ -235,8 +234,8 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				}
 			}
 		}
-		console.log('ConvMat:');
-		printMatrix(convMat);
+		//console.log('ConvMat:');
+		//printMatrix(convMat);
 		var iKer = insertKernel(convMat, kernel);
 		var sub = matrixSubtract(orgObject.data, iKer);
 		//printMatrix(sub);
@@ -419,9 +418,9 @@ function zero(width, height){
 //copies maxtrix and returns new matrix
 */
 
-function copyMat(inputMat){
+function copyMat(inputMatrix){
 	var newMat = [];
-	for(var i = 0; i< inputMat.length; i++){
+	for(var i = 0; i< inputMatrix.length; i++){
 		var rowRes = [];
 		for(var j = 0; j< inputMatrix[0].length; j++){
 			rowRes.push(inputMatrix[i][j]);
