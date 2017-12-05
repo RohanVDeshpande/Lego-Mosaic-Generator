@@ -206,8 +206,9 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				}
 			}
 		}
-		//console.log('ConvMat:');
-		//printMatrix(convMat);
+		
+
+
 		var iKer = insertKernel(convMat, kernel);
 		var sub = matrixSubtract(orgObject.data, iKer);
 		//printMatrix(sub);
@@ -418,6 +419,22 @@ function matEquals(matrix1, matrix2){
 	else{
 		return false;
 	}
+}
+
+/*
+//matInList(matList, matrix2)
+*********************************************
+//Returns true if both matrices are equal
+*/
+
+function matInList(matList, matrix1){
+	var inList = false;
+	for(var i = 0; i<matList.length;i++){
+		if(matEquals(matList[i],matrix1)){
+			inList = true;
+		}
+	}
+	return inList;
 }
 
 
