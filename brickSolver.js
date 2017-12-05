@@ -82,14 +82,18 @@ function brickInstructions(){
 	    kernelKey.push(kernelKey3);
 	    kernelKey.push(kernelKey4);
 		*/
-	    //kernelList.length
-	    for(var a = 0; a<4;a++){
+	    //kernelObj.length
+	    for(var a = 0; a<kernelObj.length;a++){
 	    	console.log('round '+a);
 	    	//kernelObj[a].data, kernelObj[a].key
 	    	//kernelList[a], kernelKey[a]
 	    	allSolutions = solutionController(allSolutions, kernelObj[a].data, kernelObj[a].key);
 	    }
 	    console.log('final solution numbers: '+ allSolutions.length);
+	    var minIndex = optimizeCost(allSolutions, kernelObj);
+	    console.log('Min Cost Mat:');
+	    console.log(allSolutions[minIndex]);
+	    printMatrix(allSolutions[minIndex].data);
 	    /*
 	    for(var k=0; k<allSolutions.length;k++){
 	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
@@ -354,6 +358,44 @@ function insertKernel(matrix, kernel){
 		}
 	}
 
+	return result;
+}
+
+/*
+//optimizeCost(allSolutions, kernelObj)
+*********************************************
+//finds solution with lowest cost.
+//returns index of solution with lowest cost
+*/
+
+function optimizeCost(allSolutions, kernelObj){
+	var minIndex = 0;
+	var minCost = 0;
+	for(var k = 0; k<allSolutions.length;k++){
+		var cost = calculateCost(allSolutions[k],kernelObj);
+		if(k==0 || cost<minCost){
+			minIndex = k;
+			minCost = cost
+		}
+	}
+	console.log('Min Cost: '+minCost);
+	return minIndex;
+}
+
+
+
+/*
+//calculateCost(matObj, kernelObj)
+*********************************************
+//calculates cost. stores in matObj, and returns cost
+*/
+function calculateCost(matObj, kernelObj){
+	var result = 0;
+	result += matObj.Qty.N2x2 * kernelObj[0].price;
+	result += matObj.Qty.N2x1 * kernelObj[1].price;
+	result += matObj.Qty.N1x2 * kernelObj[2].price;
+	result += matObj.Qty.N1x1 * kernelObj[3].price;
+	matObj.Qty.cost = result;
 	return result;
 }
 
