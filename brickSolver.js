@@ -36,7 +36,30 @@ function brickInstructions(){
 
 	    var allSolutions = [];
 	    allSolutions.push(makeObject(matrix));
-
+	    
+	    var kernelObj = [
+	    	{
+	    		data:[[1,1],[1,1]],
+	    		key:'2x2',
+	    		price:1
+	    	},
+	    	{
+	    		data:[[1,1]],
+	    		key:'2x1',
+	    		price:1
+	    	},
+	    	{
+	    		data:[[1],[1]],
+	    		key:'1x2',
+	    		price:1
+	    	},
+	    	{
+	    		data:[[1]],
+	    		key:'1x1',
+	    		price:1
+	    	},
+	    ];
+	    /*
 	    var kernel1 = [[1,1],[1,1]];
 	    var kernel2 = [[1,1]];
 	    var kernel3 = [[1],[1]];
@@ -58,11 +81,13 @@ function brickInstructions(){
 	    kernelKey.push(kernelKey2);
 	    kernelKey.push(kernelKey3);
 	    kernelKey.push(kernelKey4);
-
+		*/
 	    //kernelList.length
 	    for(var a = 0; a<4;a++){
 	    	console.log('round '+a);
-	    	allSolutions = solutionController(allSolutions, kernelList[a], kernelKey[a]);
+	    	//kernelObj[a].data, kernelObj[a].key
+	    	//kernelList[a], kernelKey[a]
+	    	allSolutions = solutionController(allSolutions, kernelObj[a].data, kernelObj[a].key);
 	    }
 	    console.log('final solution numbers: '+ allSolutions.length);
 	    /*
@@ -343,6 +368,7 @@ function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
 	var object = {
 		data: inputMatrix,
 		Qty:{
+			Cost:0,
 			N2x2:inputN2x2,
 			N2x1:inputN2x1,
 			N1x2:inputN1x2,
@@ -364,6 +390,7 @@ function makeObject(inputMatrix){
 	var object = {
 		data: inputMatrix,
 		Qty:{
+			Cost:0,
 			N2x2:0,
 			N2x1:0,
 			N1x2:0,
