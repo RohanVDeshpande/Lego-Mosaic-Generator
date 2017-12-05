@@ -39,49 +39,35 @@ function brickInstructions(){
 	    
 	    var kernelObj = [
 	    	{
+	    		legoid:3022,
 	    		data:[[1,1],[1,1]],
 	    		key:'2x2',
-	    		price:0.05
+	    		price:0.05,
+	    		color:[255,0,0]
 	    	},
 	    	{
+	    		legoid:3023,
 	    		data:[[1,1]],
 	    		key:'2x1',
 	    		price:0.04
+	    		color:[0,255,0]
 	    	},
 	    	{
+	    		legoid:3023,
 	    		data:[[1],[1]],
 	    		key:'1x2',
 	    		price:0.04
+	    		color:[0,255,0]
 	    	},
 	    	{
+	    		legoid:3024,
 	    		data:[[1]],
 	    		key:'1x1',
 	    		price:0.07
+	    		color:[0,0,255]
 	    	},
 	    ];
-	    /*
-	    var kernel1 = [[1,1],[1,1]];
-	    var kernel2 = [[1,1]];
-	    var kernel3 = [[1],[1]];
-	    var kernel4 = [[1]];
 
-	    var kernelList = [];
-	    kernelList.push(kernel1);
-	    kernelList.push(kernel2);
-	    kernelList.push(kernel3);
-	    kernelList.push(kernel4);
-
-	    var kernelKey = [];
-	    kernelKey1 = '2x2';
-	    kernelKey2 = '2x1';
-	    kernelKey3 = '1x2';
-	    kernelKey4 = '1x1';
-
-	    kernelKey.push(kernelKey1);
-	    kernelKey.push(kernelKey2);
-	    kernelKey.push(kernelKey3);
-	    kernelKey.push(kernelKey4);
-		*/
 	    //kernelObj.length
 	    for(var a = 0; a<kernelObj.length;a++){
 	    	console.log('round '+a);
@@ -94,49 +80,6 @@ function brickInstructions(){
 	    console.log('Min Cost Mat:');
 	    console.log(allSolutions[minIndex]);
 	    printMatrix(allSolutions[minIndex].data);
-	    /*
-	    for(var k=0; k<allSolutions.length;k++){
-	    	var tempConv = convolution(allSolutions[k].data, kernel, true, true, true);
-	    	solList = solutionList(tempConv, kernel,allSolutions[k]);
-	    	for(var l = 0; l < solList.length; l++){
-	    		tempSolutions.push(solList[l]);
-	    	}
-	    }
-	    for(var k = 0; k<tempSolutions.length; k++){
-	    	console.log(tempSolutions[k]);
-	    	printMatrix(tempSolutions[k].data);
-	    }
-		*/
-	    /*
-		console.log('2x2 Convolution Matrix:');
-	    var convmatrix = convolution(matrix, kernel, true, true, true);
-	    printMatrix(convmatrix);
-	    console.log('Conv+Kernel Matrix:');
-	    convmatrix = insertKernel(convmatrix, kernel);
-	    printMatrix(convmatrix);
-	    console.log('Substraction Matrix:')
-	    matrix = matrixSubtract(matrix, convmatrix);
-	    printMatrix(matrix);
-
-	    kernel = [[1,1]];
-
-	    convmatrix = convolution(matrix, kernel, true, true, true);
-	    console.log('1x2 Conv:');
-	    printMatrix(convmatrix);
-
-	    console.log('Solution List:');
-	    solList = solutionList(convmatrix, kernel)
-	    for(var k = 0; k < solList.length; k++){
-	    	console.log('Solution Number '+k);
-	    	printMatrix(solList[k]);
-	    }
-	    */
-
-	    /*
-	    console.log('Conv+Kernel Matrix:')
-	    convmatrix = insertKernel(convmatrix, [[1,1]]);
-	    printMatrix(convmatrix);
-		*/
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -415,6 +358,12 @@ function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
 			N2x1:inputN2x1,
 			N1x2:inputN1x2,
 			N1x1:inputN1x1
+		},
+		QtyLocation:{
+			N2x2:[],
+			N2x1:[],
+			N1x2:[],
+			N1x1:[]
 		}
 	}
 	return object;
@@ -437,6 +386,12 @@ function makeObject(inputMatrix){
 			N2x1:0,
 			N1x2:0,
 			N1x1:0
+		},
+		QtyLocation:{
+			N2x2:[],
+			N2x1:[],
+			N1x2:[],
+			N1x1:[]
 		}
 	}
 	return object;
