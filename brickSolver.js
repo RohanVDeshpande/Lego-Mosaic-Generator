@@ -215,16 +215,16 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 			//printMatrix(sub);
 			var temp;
 			if(kernelKey == '2x2'){
-				temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+				temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
 			}
 			else if(kernelKey == '2x1'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1);
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
 			}
 			else if(kernelKey == '1x2'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1);
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
 			}
 			else if(kernelKey == '1x1'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums);
+				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums, orgObject.ConvMat, convMat);
 			}
 			//console.log(temp);
 			solutionMatrices.push(temp);
@@ -346,13 +346,18 @@ function calculateCost(matObj, kernelObj){
 }
 
 /*
-//editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1)
+//editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1, oldConv, newConv)
 *********************************************
 //creates object that with new brick quantity
 */
 
 
-function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
+function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1, oldConv, newConv){
+	var list = []
+	for(var i = 0; i<oldConv.length;i++){
+		list.push(oldConv[i]);
+	}
+	list.push(newConv);
 	var object = {
 		data: inputMatrix,
 		Qty:{
@@ -362,12 +367,7 @@ function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1){
 			N1x2:inputN1x2,
 			N1x1:inputN1x1
 		},
-		QtyLocation:{
-			N2x2:[],
-			N2x1:[],
-			N1x2:[],
-			N1x1:[]
-		}
+		ConvMat:list
 	}
 	return object;
 }
@@ -390,12 +390,7 @@ function makeObject(inputMatrix){
 			N1x2:0,
 			N1x1:0
 		},
-		QtyLocation:{
-			N2x2:[],
-			N2x1:[],
-			N1x2:[],
-			N1x1:[]
-		}
+		ConvMat:[]
 	}
 	return object;
 }
