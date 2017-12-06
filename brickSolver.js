@@ -91,6 +91,7 @@ function brickInstructions(){
 	    		}
 	    	}
 	    }
+
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
@@ -506,3 +507,16 @@ function copyMat(inputMatrix){
 	}
 	return newMat;
 }
+
+
+document.getElementById('addGrid').addEventListener('click',function(){
+	var elm = document.getElementsByTagName('canvas')[0];
+	if(elm.style.display == 'block'){
+		elm.style.display = 'none';
+		document.getElementById('grid-display').style.display = 'block';
+	}
+	else{
+		elm.style.display = 'block';
+		document.getElementById('grid-display').style.display = 'none';
+	}
+},false);

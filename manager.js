@@ -117,6 +117,9 @@ function changePanel(id){
 	else if(id == 'togglePaint'){
 		document.getElementById('paint').classList.add("active");
 	}
+	else if(id == 'instructions-toggle'){
+		document.getElementById('instructions').classList.add("active");
+	}
 }
 function updateDimensions(path){
 	Jimp.read(path, function (err, img) {

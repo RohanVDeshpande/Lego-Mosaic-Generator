@@ -24,11 +24,12 @@
 				<li><img onclick="changePanel(this.id)" src="./icons/icon-134-pen.svg" id="togglePaint"></li>
 				<li><img onclick="restoreHistory(0)" src="./icons/icon-27-trash-can.svg"></li>
 				<li><span onclick="makeGrayscale()">Grayscale</span></li>
-				<li><span onclick="brickInstructions()">Solve</span></li>
+				<li><span onclick="changePanel(this.id);brickInstructions()" id="instructions-toggle">Solve</span></li>
 			</ul>
 		</div>
 		<div class="centerPane">
 			<canvas></canvas>
+			<div class="grid-bound"><img src = "./temp/2.jpg" id="grid-display" width="2000%"></div>
 		</div>
 		<div class="rightPane">
 			<div id="dimensions" class="inactive">
@@ -47,6 +48,9 @@
 				<ul id="allColors"></ul>
 				<ul id="colorPalette"></ul>
 				<div onclick="changeColor()" class="button">Fill Color</div>
+			</div>
+			<div id="instructions" class="inactive">
+				<button id="addGrid">Toggle Grid</button>
 			</div>
 			<p>Change Number: <span id="iterator">0</span></p>
 			<ul id="img-history"></ul>
