@@ -69,17 +69,19 @@ function brickInstructions(){
 	    ];
 
 	    //kernelObj.length
-	    for(var a = 0; a<2;a++){
-	    	console.log('round '+a);
+	    for(var a = 0; a<kernelObj.length;a++){
 	    	//kernelObj[a].data, kernelObj[a].key
 	    	//kernelList[a], kernelKey[a]
 	    	allSolutions = solutionController(allSolutions, kernelObj[a].data, kernelObj[a].key);
 	    }
-	    console.log('final solution numbers: '+ allSolutions.length);
+	    console.log('Total Number of Solutions:'+ allSolutions.length);
 	    var minIndex = optimizeCost(allSolutions, kernelObj);
 	    console.log('Min Cost Mat:');
 	    console.log(allSolutions[minIndex]);
-	    printMatrix(allSolutions[minIndex].data);
+	    for(var i = 0; i<allSolutions[minIndex].ConvMat.length; i++){
+	    	console.log('Round '+(i+1));
+	    	printMatrix(allSolutions[minIndex].ConvMat[i]);
+	    }
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -104,15 +106,16 @@ function solutionController(solutions, kernel, kernelKey){
 	for(var k=0; k<solutions.length;k++){
     	var tempConv = convolution(solutions[k].data, kernel, true, true);
     	solList = solutionList(tempConv, kernel,solutions[k], kernelKey);
-    	console.log(solList);
+    	//console.log(solList);
     	for(var l = 0; l < solList.length; l++){
     		tempSolutions.push(solList[l]);
     	}
     }
+    /*
 	for(var k = 0; k<tempSolutions.length; k++){
 		console.log(tempSolutions[k]);
 		printMatrix(tempSolutions[k].data);
-	}
+	}*/
 	return tempSolutions;
 }
 
@@ -206,10 +209,10 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				}
 			}
 		}
-		console.log(solutionMatrices.length);
-		printMatrix(convMat)
+		//console.log(solutionMatrices.length);
+		//printMatrix(convMat)
 		if(!matInList(solutionMatrices, convMat)){
-			console.log('^not in list')
+			//console.log('^not in list')
 			var iKer = insertKernel(convMat, kernel);
 			var sub = matrixSubtract(orgObject.data, iKer);
 			//printMatrix(sub);
@@ -252,7 +255,7 @@ function convCoordinates(convMatrix){
 			}
 		}
 	}
-	console.log(coordinates);
+	//console.log(coordinates);
 	return coordinates;
 }
 
@@ -402,16 +405,15 @@ function makeObject(inputMatrix){
 */
 
 function matEquals(matrix1, matrix2){
-	console.log('Matrix 1:');
-	printMatrix(matrix1);
-	console.log('Matrix 2:');
-	printMatrix(matrix2);
+	//console.log('Matrix 1:');
+	//printMatrix(matrix1);
+	//console.log('Matrix 2:');
+	//printMatrix(matrix2);
 	if(matrix1.length == matrix2.length && matrix1[0].length == matrix2[0].length){
 		var isEqual = true;
 		for(var i = 0; i < matrix1.length; i++){
 			for(var j = 0; j < matrix1[0].length; j++){
 				if(matrix1[i][j] != matrix2[i][j]){
-					console.log('false');
 					isEqual = false;
 				}
 			}
@@ -419,7 +421,7 @@ function matEquals(matrix1, matrix2){
 		return isEqual;
 	}
 	else{
-		console.log('dimension err');
+		console.log('dimension error');
 		return false;
 	}
 }
@@ -433,7 +435,7 @@ function matEquals(matrix1, matrix2){
 function matInList(matListObj, matrix1){
 	var inList = false;
 	for(var r = 0; r<matListObj.length;r++){
-		if(matEquals(matListObj[r].data,matrix1)){
+		if(matEquals(matListObj[r].ConvMat[matListObj[r].ConvMat.length-1],matrix1)){
 			inList = true;
 		}
 	}
