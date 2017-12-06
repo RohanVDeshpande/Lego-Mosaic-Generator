@@ -242,7 +242,7 @@ BUTTON STYLING:
   width: 100%;
   top: 0;
   left: 0;
-  background: linear-gradient(to bottom, white 2px, transparent 2px), linear-gradient(to right, white 2px, transparent 2px);
+  background: linear-gradient(to bottom, white 1px, transparent 1px), linear-gradient(to right, white 1px, transparent 1px);
   background-size: 20px;
   padding: 1px;
 }

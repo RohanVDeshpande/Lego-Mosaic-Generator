@@ -520,3 +520,6 @@ document.getElementById('addGrid').addEventListener('click',function(){
 		document.getElementById('grid-display').style.display = 'none';
 	}
 },false);
+
+document.getElementsByTagName('canvas')[0].style.display = 'block';
+document.getElementById('grid-display').style.display = 'none';
