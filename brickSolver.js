@@ -43,28 +43,28 @@ function brickInstructions(){
 	    		data:[[1,1],[1,1]],
 	    		key:'2x2',
 	    		price:0.05,
-	    		color:[255,0,0]
+	    		color:[26, 188, 156]
 	    	},
 	    	{
 	    		legoid:3023,
 	    		data:[[1,1]],
 	    		key:'2x1',
 	    		price:0.04,
-	    		color:[0,255,0]
+	    		color:[211, 84, 0]
 	    	},
 	    	{
 	    		legoid:3023,
 	    		data:[[1],[1]],
 	    		key:'1x2',
 	    		price:0.04,
-	    		color:[0,255,0]
+	    		color:[41, 128, 185]
 	    	},
 	    	{
 	    		legoid:3024,
 	    		data:[[1]],
 	    		key:'1x1',
 	    		price:0.07,
-	    		color:[0,0,255]
+	    		color:[142, 68, 173]
 	    	},
 	    ];
 
@@ -80,9 +80,17 @@ function brickInstructions(){
 	    console.log(allSolutions[minIndex]);
 	    for(var i = 0; i<allSolutions[minIndex].ConvMat.length; i++){
 	    	console.log('Round '+(i+1));
-	    	printMatrix(allSolutions[minIndex].ConvMat[i]);
+	    	var iKer = insertKernel(allSolutions[minIndex].ConvMat[i],kernelObj[i].data);
+	    	printMatrix(iKer);
+	    	for(var l = 0; l < iKer.length;l++){
+	    		for(var w = 0; w< iKer[0].length;w++){
+	    			if(iKer[l][w]==1){
+	    				var color = kernelObj[i].color;
+	    				img.setPixelColor(Jimp.rgbaToInt(color[0], color[1], color[2], 255),w,l);
+	    			}
+	    		}
+	    	}
 	    }
-
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
 	    img.write(".//temp//"+iterator+".jpg");
