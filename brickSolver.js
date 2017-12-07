@@ -555,25 +555,3 @@ document.getElementById('addGrid').addEventListener('click',function(){
 	    }, 100);
 	});
 },false);
-
-
-/*
-document.getElementById('addGrid').addEventListener('click',function(){
-	var elm = document.getElementsByTagName('canvas')[0];
-	if(elm.style.display == 'block'){
-		elm.style.display = 'none';
-		document.getElementById('grid-display').style.display = 'block';
-	}
-	else{
-		elm.style.display = 'block';
-		document.getElementById('grid-display').style.display = 'none';
-	}
-},false);
-
-document.getElementsByTagName('canvas')[0].style.display = 'block';
-document.getElementById('grid-display').style.display = 'none';
-
-prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
-prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
-
-*/
