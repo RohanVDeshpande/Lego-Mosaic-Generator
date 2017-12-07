@@ -199,7 +199,7 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 		//printMatrix(convMatrix);
 		var convMat = copyMat(convMatrix);
 		var elementNums = 0;
-		for(var i = coordList[k][1]; i < convMatrix.length + coordList[k][1]; i++){
+		for(var i = coordList[k][1]; i < convMatrix.length + coordList[k][1]+2; i++){
 			var start = 0;
 			if(i==coordList[k][1]){
 				start = coordList[k][0];
