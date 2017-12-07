@@ -3,6 +3,7 @@ var Jimp = require("jimp");
 var path = ".//temp//";
 var forEach = require('async-foreach').forEach;
 
+var savedSteps = 0;
 
 /*
 //function: brickInstructions()
@@ -109,7 +110,7 @@ function brickInstructions(){
 
 	    //kernelObj.length
 	    for(var a = 0; a<kernelObj.length;a++){
-	    	allSolutions = solutionController(allSolutions, kernelObj[a].data);
+	    	allSolutions = solutionController(allSolutions, kernelObj[a]);
 	    	console.log(kernelObj[a].key);
 	    }
 
@@ -155,11 +156,11 @@ function brickInstructions(){
 *********************************************
 //Applies convolusion to input matrix
 */
-function solutionController(solutions, kernel){
+function solutionController(solutions, kernelObj){
 	var tempSolutions = [];
 	for(var k=0; k<solutions.length;k++){
-    	var tempConv = convolution(solutions[k].data, kernel, true, true);
-    	solList = solutionList(tempConv, kernel,solutions[k]);
+    	var tempConv = convolution(solutions[k].data, kernelObj.data, true, true);
+    	solList = solutionList(tempConv, kernelObj,solutions[k]);
     	for(var l = 0; l < solList.length; l++){
     		tempSolutions.push(solList[l]);
     	}
@@ -223,8 +224,8 @@ function convolution(matrix, kernel, average, round){
 //... iterates to create all potential solutions
 */
 
-function solutionList(convMatrix, kernel, orgObject){
-
+function solutionList(convMatrix, kernelObj, orgObject){
+	var kernel = kernelObj.data;
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
 
@@ -256,7 +257,7 @@ function solutionList(convMatrix, kernel, orgObject){
 		if(!matInList(solutionMatrices, convMat)){
 			var iKer = insertKernel(convMat, kernel);
 			var sub = matrixSubtract(orgObject.data, iKer);
-			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat);
+			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat, kernelObj.price, orgObject.Qty.cost);
 			solutionMatrices.push(temp);
 		}
 	}
@@ -402,7 +403,8 @@ function calculateCost(matObj, kernelObj){
 //... and pushes new Convolution Matrix to list of convolution matrices
 */
 
-function editQty(inputMatrix, oldQty, newQty, oldConv, newConv){
+function editQty(inputMatrix, oldQty, newQty, oldConv, newConv, brickPrice, previousCost){
+	var newCost = previousCost + brickPrice * newQty;
 	var list = []
 	for(var i = 0; i<oldConv.length;i++){
 		list.push(oldConv[i]);
@@ -417,7 +419,7 @@ function editQty(inputMatrix, oldQty, newQty, oldConv, newConv){
 	var object = {
 		data: inputMatrix,
 		Qty:{
-			Cost:0,
+			Cost: newCost,
 			QtyMat:qtyList
 		},
 		ConvMat:list
