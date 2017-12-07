@@ -531,16 +531,24 @@ document.getElementById('addGrid').addEventListener('click',function(){
 		    		}
 		    	}
 		    }
-
+		    //Draw Vertical Lines (White Color)
 		    for(var i = 0; i < prevWidth; i++){
 		    	for(var j = 0; j<prevHeight*20; j++){
 		    		gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), i*20, j);
 		    	}
 		    }
+		    //Draw Vertical Line on last column
+		    for(var j = 0; j<prevHeight*20; j++){
+		    	gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), prevWidth*20-1, j);
+		    }
 		    for(var i = 0; i < prevHeight; i++){
 		    	for(var j = 0; j<prevWidth*20; j++){
 		    		gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), j, i*20);
 		    	}
+		    }
+		    //Draw Horizontal Line on last row
+		    for(var j = 0; j<prevWidth*20; j++){
+		    	gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), j, prevHeight*20-1);
 		    }
 		});
 	    
