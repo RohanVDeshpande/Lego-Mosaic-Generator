@@ -109,9 +109,32 @@ function brickInstructions(){
 	    ];
 
 	    //kernelObj.length
-	    for(var a = 0; a<kernelObj.length;a++){
+	    for(var a = 0; a<1;a++){
 	    	allSolutions = solutionController(allSolutions, kernelObj[a]);
 	    	console.log(kernelObj[a].key);
+	    	var sum = 0;
+		    for(var i = 0; i < allSolutions.length; i++){
+		    	var string = "";
+		    	var cost = allSolutions[i].Qty.Cost;
+		    	sum += cost;
+		    	string += Math.round(cost * 100) / 100;
+		    	for(var j = 0; j<allSolutions[i].Qty.QtyMat.length; j++){
+		    		string += "\t";
+		    		string += allSolutions[i].Qty.QtyMat[j];
+		    	}
+		    	console.log(string);
+		    }
+		    var average = sum/allSolutions.length;
+		    console.log('Cost Average was ' + average);
+
+
+		    var squareDeviationSum = 0;
+		    for(var i = 0; i < allSolutions.length; i++){
+		    	squareDeviationSum += Math.pow((allSolutions[i].Qty.Cost - average),2);
+		    }
+		    squareDeviationSum /= allSolutions.length;
+		    var stdev = Math.sqrt(squareDeviationSum);
+		    console.log('Standard Deviation was ' + stdev);
 	    }
 
 	    var t1 = performance.now();
@@ -257,7 +280,7 @@ function solutionList(convMatrix, kernelObj, orgObject){
 		if(!matInList(solutionMatrices, convMat)){
 			var iKer = insertKernel(convMat, kernel);
 			var sub = matrixSubtract(orgObject.data, iKer);
-			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat, kernelObj.price, orgObject.Qty.cost);
+			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat, kernelObj.price, orgObject.Qty.Cost);
 			solutionMatrices.push(temp);
 		}
 	}
