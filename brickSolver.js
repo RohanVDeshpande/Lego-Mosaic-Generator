@@ -91,6 +91,8 @@ function brickInstructions(){
 	    		}
 	    	}
 	    }
+	    prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
+		prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
@@ -510,6 +512,53 @@ function copyMat(inputMatrix){
 
 
 document.getElementById('addGrid').addEventListener('click',function(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
+	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	    if (err){
+	    	console.log(err)
+	    }
+	    prevWidth = img.bitmap.width;
+		prevHeight = img.bitmap.height;
+
+		var gridImg = new Jimp(prevWidth*20, prevHeight*20, 0x000000FF, function (err, gridImg) {
+		    for(var i = 0; i<prevHeight; i++){
+		    	for(var j = 0; j<prevWidth; j++){
+		    		var color = img.getPixelColor(j,i);
+		    		for(var a = 0; a<20; a++){
+		    			for(var b = 0; b<20; b++){
+		    				gridImg.setPixelColor(color,j*20+a,i*20+b);
+		    			}
+		    		}
+		    	}
+		    }
+
+		    for(var i = 0; i < prevWidth; i++){
+		    	for(var j = 0; j<prevHeight*20; j++){
+		    		gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), i*20, j);
+		    	}
+		    }
+		    for(var i = 0; i < prevHeight; i++){
+		    	for(var j = 0; j<prevWidth*20; j++){
+		    		gridImg.setPixelColor(Jimp.rgbaToInt(255,255,255, 255), j, i*20);
+		    	}
+		    }
+		});
+	    
+	    iterator++;
+	    document.getElementById('iterator').innerHTML = iterator;
+	    gridImg.write(".//temp//"+iterator+".jpg");
+	    setTimeout(function(){
+	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	document.getElementById('imgWidth').innerHTML = gridImg.bitmap.width;
+			document.getElementById('imgHeight').innerHTML = gridImg.bitmap.height;
+	    	addToHistory();
+	    }, 100);
+	});
+},false);
+
+
+/*
+document.getElementById('addGrid').addEventListener('click',function(){
 	var elm = document.getElementsByTagName('canvas')[0];
 	if(elm.style.display == 'block'){
 		elm.style.display = 'none';
@@ -523,3 +572,8 @@ document.getElementById('addGrid').addEventListener('click',function(){
 
 document.getElementsByTagName('canvas')[0].style.display = 'block';
 document.getElementById('grid-display').style.display = 'none';
+
+prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
+prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+
+*/
