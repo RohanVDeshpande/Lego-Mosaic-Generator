@@ -42,6 +42,27 @@ function brickInstructions(){
 	    allSolutions.push(makeObject(matrix));
 	    
 	    var kernelObj = [
+	    	/*{
+	    		legoid:3020,
+	    		data:[[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1]],
+	    		key:'8x6',
+	    		price:0.36,
+	    		color:[231, 76, 60]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1]],
+	    		key:'6x4',
+	    		price:0.18,
+	    		color:[39, 174, 96]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]],
+	    		key:'4x4',
+	    		price:0.12,
+	    		color:[46, 204, 113]
+	    	},*/
 	    	{
 	    		legoid:3020,
 	    		data:[[1,1,1,1],[1,1,1,1]],
@@ -88,9 +109,8 @@ function brickInstructions(){
 
 	    //kernelObj.length
 	    for(var a = 0; a<kernelObj.length;a++){
-	    	allSolutions = solutionController(allSolutions, kernelObj[a].data, kernelObj[a].key);
+	    	allSolutions = solutionController(allSolutions, kernelObj[a].data);
 	    	console.log(kernelObj[a].key);
-	    	console.log('Number of Possibilities: '+allSolutions.length);
 	    }
 
 	    var t1 = performance.now();
@@ -135,15 +155,16 @@ function brickInstructions(){
 *********************************************
 //Applies convolusion to input matrix
 */
-function solutionController(solutions, kernel, kernelKey){
+function solutionController(solutions, kernel){
 	var tempSolutions = [];
 	for(var k=0; k<solutions.length;k++){
     	var tempConv = convolution(solutions[k].data, kernel, true, true);
-    	solList = solutionList(tempConv, kernel,solutions[k], kernelKey);
+    	solList = solutionList(tempConv, kernel,solutions[k]);
     	for(var l = 0; l < solList.length; l++){
     		tempSolutions.push(solList[l]);
     	}
     }
+    console.log('Number of Possibilities: '+tempSolutions.length);
 	return tempSolutions;
 }
 
@@ -202,7 +223,7 @@ function convolution(matrix, kernel, average, round){
 //... iterates to create all potential solutions
 */
 
-function solutionList(convMatrix, kernel, orgObject, kernelKey){
+function solutionList(convMatrix, kernel, orgObject){
 
 	var kernelWidth = kernel[0].length;
 	var kernelHeight = kernel.length;
@@ -327,7 +348,17 @@ function optimizeCost(allSolutions, kernelObj){
 	var minIndex = 0;
 	var minCost = 0;
 	for(var k = 0; k<allSolutions.length;k++){
+		var string = "";
 		var cost = calculateCost(allSolutions[k],kernelObj);
+
+		string += Math.round(cost * 100) / 100;
+		string += "\t";
+		for(var i = 0; i < allSolutions[k].Qty.QtyMat.length;i++){
+			string+= allSolutions[k].Qty.QtyMat[i];
+			string+="  ";
+		}
+		console.log(string);
+
 		if(k==0 || cost<minCost){
 			minIndex = k;
 			minCost = cost
