@@ -347,23 +347,32 @@ function insertKernel(matrix, kernel){
 function optimizeCost(allSolutions, kernelObj){
 	var minIndex = 0;
 	var minCost = 0;
+	//var string = "";
 	for(var k = 0; k<allSolutions.length;k++){
-		var string = "";
 		var cost = calculateCost(allSolutions[k],kernelObj);
-
-		string += Math.round(cost * 100) / 100;
-		string += "\t";
+/*
+		string1 = ""+Math.round(cost * 100) / 100;
+		string1 += ",";
 		for(var i = 0; i < allSolutions[k].Qty.QtyMat.length;i++){
-			string+= allSolutions[k].Qty.QtyMat[i];
-			string+="  ";
+			string1+= allSolutions[k].Qty.QtyMat[i];
+			string1+=",";
 		}
-		console.log(string);
-
+		string+=string1;
+		string+="\r\n";
+		console.log(string1);
+*/
 		if(k==0 || cost<minCost){
 			minIndex = k;
 			minCost = cost
 		}
 	}
+	/*
+	fs.writeFile("./temp/test.txt", string, function(err) {
+	    if(err) {
+	        return console.log(err);
+	    }
+	    console.log("The file was saved!");
+	}); */
 	console.log('Min Cost: '+minCost);
 	return minIndex;
 }
