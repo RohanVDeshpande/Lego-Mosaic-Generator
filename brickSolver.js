@@ -109,7 +109,7 @@ function brickInstructions(){
 	    ];
 
 	    //kernelObj.length
-	    for(var a = 0; a<1;a++){
+	    for(var a = 0; a<kernelObj.length;a++){
 	    	allSolutions = solutionController(allSolutions, kernelObj[a]);
 	    	console.log(kernelObj[a].key);
 	    	var sum = 0;
@@ -122,7 +122,7 @@ function brickInstructions(){
 		    		string += "\t";
 		    		string += allSolutions[i].Qty.QtyMat[j];
 		    	}
-		    	console.log(string);
+		    	//console.log(string);
 		    }
 		    var average = sum/allSolutions.length;
 		    console.log('Cost Average was ' + average);
@@ -135,6 +135,17 @@ function brickInstructions(){
 		    squareDeviationSum /= allSolutions.length;
 		    var stdev = Math.sqrt(squareDeviationSum);
 		    console.log('Standard Deviation was ' + stdev);
+
+		    var itemsRemoved = 0;
+		    var upperBound = average + 0.25 * stdev;
+		    for(var i = allSolutions.length - 1; i > -1; i--){
+		    	if(allSolutions[i].Qty.Cost > upperBound){
+		    		//console.log(i+' was removed');
+		    		allSolutions.splice(i, 1);
+		    		itemsRemoved++;
+		    	}
+		    }
+		    console.log(itemsRemoved + ' items were removed');
 	    }
 
 	    var t1 = performance.now();
