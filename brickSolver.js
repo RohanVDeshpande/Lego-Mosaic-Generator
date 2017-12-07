@@ -13,6 +13,9 @@ var forEach = require('async-foreach').forEach;
 */
 
 function brickInstructions(){
+
+	var t0 = performance.now();
+
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
 	    if (err){
@@ -22,7 +25,8 @@ function brickInstructions(){
 	    for(var i =0; i<img.bitmap.height; i++){
 	    	var row = [];
 	    	for(var j=0; j<img.bitmap.width;j++){
-	    		if(Jimp.intToRGBA(img.getPixelColor(j,i)).r>230){
+	    		var color = Jimp.intToRGBA(img.getPixelColor(j,i));
+	    		if(color.r>230 && color.g>230 && color.b>230){
 	    			row.push(1);
 	    		}
 	    		else{
@@ -38,6 +42,20 @@ function brickInstructions(){
 	    allSolutions.push(makeObject(matrix));
 	    
 	    var kernelObj = [
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1],[1,1,1,1]],
+	    		key:'4x2',
+	    		price:0.06,
+	    		color:[241, 196, 15]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,],[1,1],[1,1],[1,1]],
+	    		key:'2x4',
+	    		price:0.06,
+	    		color:[231, 76, 60]
+	    	},
 	    	{
 	    		legoid:3022,
 	    		data:[[1,1],[1,1]],
@@ -70,10 +88,14 @@ function brickInstructions(){
 
 	    //kernelObj.length
 	    for(var a = 0; a<kernelObj.length;a++){
-	    	//kernelObj[a].data, kernelObj[a].key
-	    	//kernelList[a], kernelKey[a]
 	    	allSolutions = solutionController(allSolutions, kernelObj[a].data, kernelObj[a].key);
+	    	console.log(kernelObj[a].key);
+	    	console.log('Number of Possibilities: '+allSolutions.length);
 	    }
+
+	    var t1 = performance.now();
+		console.log("Solver Algorithm took " + (t1 - t0) + " milliseconds.")
+
 	    console.log('Total Number of Solutions:'+ allSolutions.length);
 	    var minIndex = optimizeCost(allSolutions, kernelObj);
 	    console.log('Min Cost Mat:');
@@ -86,6 +108,7 @@ function brickInstructions(){
 	    		for(var w = 0; w< iKer[0].length;w++){
 	    			if(iKer[l][w]==1){
 	    				var color = kernelObj[i].color;
+
 	    				img.setPixelColor(Jimp.rgbaToInt(color[0], color[1], color[2], 255),w,l);
 	    			}
 	    		}
@@ -117,7 +140,6 @@ function solutionController(solutions, kernel, kernelKey){
 	for(var k=0; k<solutions.length;k++){
     	var tempConv = convolution(solutions[k].data, kernel, true, true);
     	solList = solutionList(tempConv, kernel,solutions[k], kernelKey);
-    	//console.log(solList);
     	for(var l = 0; l < solList.length; l++){
     		tempSolutions.push(solList[l]);
     	}
@@ -201,7 +223,7 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				if(convMat[i%convMatrix.length][j] == 1){
 					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
 						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
-							if(!(a==0 && b==0)){
+							if(!(a==0 && b==0) && !(i+a<0) && !(j+b<0)){
 								convMat[(i+a)%convMatrix.length][(j+b)%convMatrix[0].length] = 0;
 							}
 						}
@@ -483,7 +505,6 @@ function copyMat(inputMatrix){
 	}
 	return newMat;
 }
-
 
 document.getElementById('addGrid').addEventListener('click',function(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
