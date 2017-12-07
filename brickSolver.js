@@ -122,11 +122,6 @@ function solutionController(solutions, kernel, kernelKey){
     		tempSolutions.push(solList[l]);
     	}
     }
-    /*
-	for(var k = 0; k<tempSolutions.length; k++){
-		console.log(tempSolutions[k]);
-		printMatrix(tempSolutions[k].data);
-	}*/
 	return tempSolutions;
 }
 
@@ -195,8 +190,6 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 	var solutionMatrices = [];
 
 	for(var k = 0; k < coordList.length; k++){
-		//console.log('Before:');
-		//printMatrix(convMatrix);
 		var convMat = copyMat(convMatrix);
 		var elementNums = 0;
 		for(var i = coordList[k][1]; i < convMatrix.length + coordList[k][1]+2; i++){
@@ -208,39 +201,19 @@ function solutionList(convMatrix, kernel, orgObject, kernelKey){
 				if(convMat[i%convMatrix.length][j] == 1){
 					for(var a = -1*kernelHeight+1; a < kernelHeight; a++){
 						for(var b= -1*kernelWidth+1; b < kernelWidth; b++){
-							//console.log('a:'+a+'\tb:'+b);
 							if(!(a==0 && b==0)){
 								convMat[(i+a)%convMatrix.length][(j+b)%convMatrix[0].length] = 0;
-								//console.log('a:'+a+'\tb:'+b);
 							}
 						}
 					}
 					elementNums++;
-					//console.log('i: '+i+'\t'+'j: '+j);
 				}
 			}
 		}
-		//console.log(solutionMatrices.length);
-		//printMatrix(convMat)
 		if(!matInList(solutionMatrices, convMat)){
-			//console.log('^not in list')
 			var iKer = insertKernel(convMat, kernel);
 			var sub = matrixSubtract(orgObject.data, iKer);
-			//printMatrix(sub);
-			var temp;
-			if(kernelKey == '2x2'){
-				temp = editQty(sub, orgObject.Qty.N2x2+elementNums, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
-			}
-			else if(kernelKey == '2x1'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1+elementNums, orgObject.Qty.N1x2, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
-			}
-			else if(kernelKey == '1x2'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2+elementNums, orgObject.Qty.N1x1, orgObject.ConvMat, convMat);
-			}
-			else if(kernelKey == '1x1'){
-				temp = editQty(sub, orgObject.Qty.N2x2, orgObject.Qty.N2x1, orgObject.Qty.N1x2, orgObject.Qty.N1x1+elementNums, orgObject.ConvMat, convMat);
-			}
-			//console.log(temp);
+			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat);
 			solutionMatrices.push(temp);
 		}
 	}
@@ -351,35 +324,39 @@ function optimizeCost(allSolutions, kernelObj){
 */
 function calculateCost(matObj, kernelObj){
 	var result = 0;
-	result += matObj.Qty.N2x2 * kernelObj[0].price;
-	result += matObj.Qty.N2x1 * kernelObj[1].price;
-	result += matObj.Qty.N1x2 * kernelObj[2].price;
-	result += matObj.Qty.N1x1 * kernelObj[3].price;
+
+	for(var i = 0; i<matObj.Qty.QtyMat.length; i++){
+		result += matObj.Qty.QtyMat[i] * kernelObj[i].price;
+	}
 	matObj.Qty.cost = result;
 	return result;
 }
 
 /*
-//editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1, oldConv, newConv)
+//editQty(inputMatrix, oldQty, newQty, oldConv, newConv)
 *********************************************
-//creates object that with new brick quantity
+//creates object...
+//... pushes new Qty to oldQty list...
+//... and pushes new Convolution Matrix to list of convolution matrices
 */
 
-
-function editQty(inputMatrix, inputN2x2, inputN2x1, inputN1x2, inputN1x1, oldConv, newConv){
+function editQty(inputMatrix, oldQty, newQty, oldConv, newConv){
 	var list = []
 	for(var i = 0; i<oldConv.length;i++){
 		list.push(oldConv[i]);
 	}
 	list.push(newConv);
+
+	var qtyList = [];
+	for(var i = 0; i < oldQty.length;i++){
+		qtyList.push(oldQty[i]);
+	}
+	qtyList.push(newQty);
 	var object = {
 		data: inputMatrix,
 		Qty:{
 			Cost:0,
-			N2x2:inputN2x2,
-			N2x1:inputN2x1,
-			N1x2:inputN1x2,
-			N1x1:inputN1x1
+			QtyMat:qtyList
 		},
 		ConvMat:list
 	}
@@ -399,10 +376,7 @@ function makeObject(inputMatrix){
 		data: inputMatrix,
 		Qty:{
 			Cost:0,
-			N2x2:0,
-			N2x1:0,
-			N1x2:0,
-			N1x1:0
+			QtyMat:[]
 		},
 		ConvMat:[]
 	}
