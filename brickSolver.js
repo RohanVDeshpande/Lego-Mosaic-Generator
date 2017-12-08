@@ -137,7 +137,7 @@ function brickInstructions(){
 		    console.log('Standard Deviation was ' + stdev);
 
 		    var itemsRemoved = 0;
-		    var upperBound = average + 0.25 * stdev;
+		    var upperBound = average + 0.04 * (kernelObj.length - a) * stdev;
 		    for(var i = allSolutions.length - 1; i > -1; i--){
 		    	if(allSolutions[i].Qty.Cost > upperBound){
 		    		//console.log(i+' was removed');
@@ -384,18 +384,7 @@ function optimizeCost(allSolutions, kernelObj){
 	var minCost = 0;
 	//var string = "";
 	for(var k = 0; k<allSolutions.length;k++){
-		var cost = calculateCost(allSolutions[k],kernelObj);
-/*
-		string1 = ""+Math.round(cost * 100) / 100;
-		string1 += ",";
-		for(var i = 0; i < allSolutions[k].Qty.QtyMat.length;i++){
-			string1+= allSolutions[k].Qty.QtyMat[i];
-			string1+=",";
-		}
-		string+=string1;
-		string+="\r\n";
-		console.log(string1);
-*/
+		var cost = allSolutions[k].Qty.Cost;
 		if(k==0 || cost<minCost){
 			minIndex = k;
 			minCost = cost
