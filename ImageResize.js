@@ -6,6 +6,8 @@ function widthChange(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
 	prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+	console.log(prevWidth);
+	console.log(prevHeight);
     width = parseInt(document.getElementById('mWidth').value);
 	height = Math.round(width/prevWidth*prevHeight);
 	document.getElementById('mHeight').value = height;
@@ -14,8 +16,12 @@ function heightChange(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
 	prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
 	prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+	console.log(prevWidth);
+	console.log(prevHeight);
     height = parseInt(document.getElementById('mHeight').value);
-	width = Math.round(height/imgHeight*imgWidth);
+	width = Math.round(height/prevHeight*prevWidth);
+	console.log(width);
+	console.log(height);
 	document.getElementById('mWidth').value = width;
 }
 
