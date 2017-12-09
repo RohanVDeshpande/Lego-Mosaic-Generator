@@ -24,7 +24,7 @@
 				<li><img onclick="changePanel(this.id)" src="./icons/icon-134-pen.svg" id="togglePaint"></li>
 				<li><img onclick="restoreHistory(0)" src="./icons/icon-27-trash-can.svg"></li>
 				<li><span onclick="makeGrayscale()">Grayscale</span></li>
-				<li><span onclick="changePanel(this.id);brickInstructions()" id="instructions-toggle">Solve</span></li>
+				<li><span onclick="changePanel(this.id)" id="instructions-toggle">Solve</span></li>
 			</ul>
 		</div>
 		<div class="centerPane">
@@ -49,6 +49,7 @@
 				<div onclick="changeColor()" class="button">Fill Color</div>
 			</div>
 			<div id="instructions" class="inactive">
+				<button onclick="brickInstructions()">Create Instructions</button><br>
 				<button id="addGrid">Toggle Grid</button>
 			</div>
 			<p>Change Number: <span id="iterator">0</span></p>
