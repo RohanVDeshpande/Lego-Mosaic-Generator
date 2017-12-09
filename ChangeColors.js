@@ -37,9 +37,7 @@ function changeColor(){
 	    	for(var j=0; j<height;j++){
 	    		//console.log(i+', '+j);
 	    		color = Jimp.intToRGBA(img.getPixelColor(i,j));
-	    		diff = Math.pow(color.r-parseInt(previousColor[0]),2)+Math.pow(color.g-parseInt(previousColor[1]),2)+Math.pow(color.b-parseInt(previousColor[2]),2);
-	    		if(diff<20){
-	    			console.log(diff);
+	    		if(color.r == previousColor[0] && color.g == previousColor[1] && color.b == previousColor[2]){
 	    			img.setPixelColor(newHex,i,j);
 	    		}
 
