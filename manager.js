@@ -26,7 +26,7 @@ function copyImage(imgPath){
 	    iterator++;
 	    console.log(iterator);
 	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(path+iterator+".jpg");
+	    img.write(path+iterator+".png");
 	    document.getElementById('mWidth').value = img.bitmap.width;
 		document.getElementById('mHeight').value = img.bitmap.height;
 		document.getElementById('imgWidth').innerHTML = img.bitmap.width;
@@ -47,15 +47,15 @@ function linkImage(imgPath, id){
 	    	console.log(err)
 	    }
 	    lenna.greyscale();                 // set greyscale 
-	    lenna.write(".//temp//temp.jpg");
+	    lenna.write(".//temp//temp.png");
 	    setTimeout(function(){
-	    	linkImage("./temp/temp.jpg", 'mosImg');
+	    	linkImage("./temp/temp.png", 'mosImg');
 	    }, 100);
 	});
 }*/
 function makeGrayscale(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	Jimp.read("./temp/"+iterator+".png", function (err, img) {
 	    if (err){
 	    	console.log(err)
 	    }
@@ -63,9 +63,9 @@ function makeGrayscale(){
 	    iterator = parseInt(document.getElementById('iterator').innerHTML);
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(".//temp//"+iterator+".jpg");
+	    img.write(".//temp//"+iterator+".png");
 	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
 	    	addToHistory();
 	    }, 100);
 	});
@@ -73,12 +73,12 @@ function makeGrayscale(){
 
 function addToHistory(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	document.getElementById('img-history').innerHTML = "<li id='wrap"+iterator+"'><img id='"+iterator+"' onclick='restoreHistory(this.id)' src='.//temp//"+iterator+".jpg?"+(new Date()).getTime()+"'><span>"+iterator+"</span></li>" + document.getElementById('img-history').innerHTML;
+	document.getElementById('img-history').innerHTML = "<li id='wrap"+iterator+"'><img id='"+iterator+"' onclick='restoreHistory(this.id)' src='.//temp//"+iterator+".png?"+(new Date()).getTime()+"'><span>"+iterator+"</span></li>" + document.getElementById('img-history').innerHTML;
 }
 function restoreHistory(objectID){
 	document.getElementById('allColors').innerHTML = "";
-	updateImg(".//temp//"+objectID+".jpg", 'orgImg');
-	updateDimensions(".//temp//"+objectID+".jpg");
+	updateImg(".//temp//"+objectID+".png", 'orgImg');
+	updateDimensions(".//temp//"+objectID+".png");
 	recreateHistory(objectID);
 }
 function recreateHistory(objectID){

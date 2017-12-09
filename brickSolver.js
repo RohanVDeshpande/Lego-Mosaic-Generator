@@ -13,12 +13,27 @@ var savedSteps = 0;
 //runs 2x2 convolution (!in progress)
 */
 
+function separateImage(){
+	iterator = parseInt(document.getElementById('iterator').innerHTML);
+	Jimp.read("./temp/"+iterator+".png", function (err, img) {
+	    if (err){
+	    	console.log(err)
+	    }
+	    for(var i = 0; i<img.bitmap.height;i++){
+	    	for(var j = 0; j<img.bitmap.width;j++){
+
+	    	}
+	    }
+	});
+}
+
+
 function brickInstructions(){
 
 	var t0 = performance.now();
 
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	Jimp.read("./temp/"+iterator+".png", function (err, img) {
 	    if (err){
 	    	console.log(err)
 	    }
@@ -174,9 +189,9 @@ function brickInstructions(){
 
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(".//temp//"+iterator+".jpg");
+	    img.write(".//temp//"+iterator+".png");
 	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
 	    	addToHistory();
 	    }, 100);
 	});
@@ -573,7 +588,7 @@ function copyMat(inputMatrix){
 
 document.getElementById('addGrid').addEventListener('click',function(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	Jimp.read("./temp/"+iterator+".png", function (err, img) {
 	    if (err){
 	    	console.log(err)
 	    }
@@ -614,9 +629,9 @@ document.getElementById('addGrid').addEventListener('click',function(){
 	    
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
-	    gridImg.write(".//temp//"+iterator+".jpg");
+	    gridImg.write(".//temp//"+iterator+".png");
 	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
 	    	document.getElementById('imgWidth').innerHTML = gridImg.bitmap.width;
 			document.getElementById('imgHeight').innerHTML = gridImg.bitmap.height;
 	    	addToHistory();

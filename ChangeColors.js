@@ -22,7 +22,7 @@ $(document).on('click', '.colorPalElm', function () {
 function changeColor(){
 	console.log('changeColor');
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
-	Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+	Jimp.read("./temp/"+iterator+".png", function (err, img) {
 		if (err){
 	    	console.log(err)
 	    }
@@ -79,9 +79,9 @@ function changeColor(){
 		
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(".//temp//"+iterator+".jpg");
+	    img.write(".//temp//"+iterator+".png");
 	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
 	    	addToHistory();
 	    }, 100);
 

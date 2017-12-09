@@ -27,7 +27,7 @@ function heightChange(){
 
 document.getElementById('MosaicDimensions').addEventListener('click',function(){
     iterator = parseInt(document.getElementById('iterator').innerHTML);
-    Jimp.read("./temp/"+iterator+".jpg", function (err, img) {
+    Jimp.read("./temp/"+iterator+".png", function (err, img) {
 	    if (err){
 	    	console.log(err)
 	    }
@@ -36,9 +36,9 @@ document.getElementById('MosaicDimensions').addEventListener('click',function(){
 	    img.resize(width,height);
 	    iterator++;
 	    document.getElementById('iterator').innerHTML = iterator;
-	    img.write(".//temp//"+iterator+".jpg");
+	    img.write(".//temp//"+iterator+".png");
 	    setTimeout(function(){
-	    	updateImg(".//temp//"+iterator+".jpg", 'orgImg');
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
 	    	document.getElementById('imgWidth').innerHTML = width;
 			document.getElementById('imgHeight').innerHTML = height;
 	    	addToHistory();
