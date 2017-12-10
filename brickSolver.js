@@ -37,6 +37,7 @@ function separateImage(){
 	    }
 	    printMatrix(pixMat);
 
+	    /*
 	    var searchVal = pixMat[0][0];
 	    console.log('searching for: '+searchVal);
 		var region = [];
@@ -44,19 +45,22 @@ function separateImage(){
 		region.push(point1);
 		region.concat(searchForVal(searchVal, 0 , 0, pixMat.length, pixMat[0].length));
 		printMatrix(pixMat);
+		*/
 
-	    /*
 	    for(var i = 0; i<pixMat.length;i++){
 	    	for(var j = 0; j<pixMat[0].length;j++){
+	    		console.log('i: '+i+"\t j: "+j);
 	    		if(pixMat[i][j] != -1){
 	    			var searchVal = pixMat[i][j];
+	    			console.log('searching for: '+searchVal);
 	    			var region = [];
 	    			var point1 = [i,j];
 	    			region.push(point1);
 	    			region.concat(searchVal(searchVal, i , j, pixMat.length, pixMat[0].length));
+	    			console.log(region)
 	    		}	
 	    	}
-	    }*/
+	    }
 
 	});
 }
