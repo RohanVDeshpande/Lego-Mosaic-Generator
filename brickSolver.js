@@ -8,6 +8,7 @@ var savedSteps = 0;
 var colors = [[39, 37, 31],[217, 217, 214],[100, 100, 100], [150, 150, 150], [55, 33, 0], [170, 125, 85], [137, 125, 98], [176, 160, 111], [0, 69, 26], [0, 133, 43], [112, 142, 124], [88, 171, 65], [252, 172, 0], [214, 121, 35], [30, 90, 168], [70, 155, 195], [157, 195, 247], [114, 0, 18], [180, 0, 0], [95, 49, 9]];
 
 var pixMat = [];
+var copyPixMat = [];
 /*
 //function: brickInstructions()
 *********************************************
@@ -47,22 +48,31 @@ function separateImage(){
 		printMatrix(pixMat);
 		*/
 
+		copyPixMat = copyMat(pixMat);
+
+		var allRegions = [];
+
 	    for(var i = 0; i<pixMat.length;i++){
 	    	for(var j = 0; j<pixMat[0].length;j++){
 	    		//console.log('i: '+i+"\t j: "+j);
 	    		if(pixMat[i][j] != -1){
+	    			pixMat = copyMat(copyPixMat);
 	    			var searchVal = pixMat[i][j];
 	    			pixMat[i][j] = -1;
 	    			console.log('searching for: '+searchVal);
 	    			var region = [];
 	    			var point1 = [i,j];
 	    			region.push(point1);
-	    			region.concat(searchForVal(searchVal, i , j));
-	    			printMatrix(pixMat);
+	    			console.log(searchForVal(searchVal, i , j));
+	    			console.log(region);
+	    			allRegions.push(region);
+	    			var bin = binaryTransform(pixMat);
+	    			printMatrix(bin);
 	    			//console.log(count + ' function calls');
 	    		}	
 	    	}
 	    }
+	   	console.log(allRegions);
 
 	});
 }
@@ -684,6 +694,34 @@ function copyMat(inputMatrix){
 	}
 	return newMat;
 }
+
+/*
+//binaryTransform(inputMatrix)
+*********************************************
+//copies matrix --> all values of -1 become 1...
+//... all other values become 0
+*/
+
+function binaryTransform(inputMatrix){
+	var newMat = [];
+	for(var i = 0; i< inputMatrix.length; i++){
+		var rowRes = [];
+		for(var j = 0; j< inputMatrix[0].length; j++){
+			if(inputMatrix[i][j] == -1){
+				rowRes.push(1);
+			}
+			else{
+				rowRes.push(0);
+			}
+		}
+		newMat.push(rowRes);
+	}
+	return newMat;
+}
+
+
+
+
 
 document.getElementById('addGrid').addEventListener('click',function(){
 	iterator = parseInt(document.getElementById('iterator').innerHTML);
