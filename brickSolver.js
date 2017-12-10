@@ -7,6 +7,72 @@ var savedSteps = 0;
 
 var colors = [[39, 37, 31],[217, 217, 214],[100, 100, 100], [150, 150, 150], [55, 33, 0], [170, 125, 85], [137, 125, 98], [176, 160, 111], [0, 69, 26], [0, 133, 43], [112, 142, 124], [88, 171, 65], [252, 172, 0], [214, 121, 35], [30, 90, 168], [70, 155, 195], [157, 195, 247], [114, 0, 18], [180, 0, 0], [95, 49, 9]];
 
+var kernelObj = [
+	    	/*{
+	    		legoid:3020,
+	    		data:[[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1]],
+	    		key:'8x6',
+	    		price:0.36,
+	    		color:[231, 76, 60]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1]],
+	    		key:'6x4',
+	    		price:0.18,
+	    		color:[39, 174, 96]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]],
+	    		key:'4x4',
+	    		price:0.12,
+	    		color:[46, 204, 113]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,1,1],[1,1,1,1]],
+	    		key:'4x2',
+	    		price:0.06,
+	    		color:[241, 196, 15]
+	    	},
+	    	{
+	    		legoid:3020,
+	    		data:[[1,1,],[1,1],[1,1],[1,1]],
+	    		key:'2x4',
+	    		price:0.06,
+	    		color:[231, 76, 60]
+	    	},
+	    	{
+	    		legoid:3022,
+	    		data:[[1,1],[1,1]],
+	    		key:'2x2',
+	    		price:0.05,
+	    		color:[26, 188, 156]
+	    	},
+	    	{
+	    		legoid:3023,
+	    		data:[[1,1]],
+	    		key:'2x1',
+	    		price:0.04,
+	    		color:[211, 84, 0]
+	    	},
+	    	*/{
+	    		legoid:3023,
+	    		data:[[1],[1]],
+	    		key:'1x2',
+	    		price:0.04,
+	    		color:[41, 128, 185]
+	    	},
+	    	{
+	    		legoid:3024,
+	    		data:[[1]],
+	    		key:'1x1',
+	    		price:0.07,
+	    		color:[142, 68, 173]
+	    	},
+	    ];
+
 var pixMat = [];
 var copyPixMat = [];
 /*
@@ -69,6 +135,7 @@ function separateImage(){
 	    	}
 	    }
 	    console.log(allRegions);
+	    brickInstructions(img, allRegions[0]);
 	});
 }
 
@@ -121,8 +188,76 @@ function searchForVal(searchVal, i ,j){
 	}
 }
 
+function brickInstructions(img, matrix){
+	printMatrix(matrix);
 
-function brickInstructions(){
+	var t0 = performance.now();
+    var allSolutions = [];
+    allSolutions.push(makeObject(matrix));
+    
+    //kernelObj.length
+    for(var a = 0; a<kernelObj.length;a++){
+    	allSolutions = solutionController(allSolutions, kernelObj[a]);
+    	console.log(kernelObj[a].key);
+    	var sum = 0;
+	    for(var i = 0; i < allSolutions.length; i++){
+	    	var string = "";
+	    	var cost = allSolutions[i].Qty.Cost;
+	    	sum += cost;
+	    	string += Math.round(cost * 100) / 100;
+	    	for(var j = 0; j<allSolutions[i].Qty.QtyMat.length; j++){
+	    		string += "\t";
+	    		string += allSolutions[i].Qty.QtyMat[j];
+	    	}
+	    }
+	    var average = sum/allSolutions.length;
+	    console.log('Cost Average was ' + average);
+
+
+	    var squareDeviationSum = 0;
+	    for(var i = 0; i < allSolutions.length; i++){
+	    	squareDeviationSum += Math.pow((allSolutions[i].Qty.Cost - average),2);
+	    }
+	    squareDeviationSum /= allSolutions.length;
+	    var stdev = Math.sqrt(squareDeviationSum);
+	    console.log('Standard Deviation was ' + stdev);
+
+	    var itemsRemoved = 0;
+	    var upperBound = average + 0.04 * (kernelObj.length - a) * stdev;
+	    for(var i = allSolutions.length - 1; i > -1; i--){
+	    	if(allSolutions[i].Qty.Cost > upperBound){
+	    		//console.log(i+' was removed');
+	    		allSolutions.splice(i, 1);
+	    		itemsRemoved++;
+	    	}
+	    }
+	    console.log(itemsRemoved + ' items were removed');
+    }
+
+    var t1 = performance.now();
+	console.log("Solver Algorithm took " + (t1 - t0) + " milliseconds.")
+
+    console.log('Total Number of Solutions:'+ allSolutions.length);
+    var minIndex = optimizeCost(allSolutions, kernelObj);
+    console.log('Min Cost Mat:');
+    console.log(allSolutions[minIndex]);
+    for(var i = 0; i<allSolutions[minIndex].ConvMat.length; i++){
+    	console.log('Round '+(i+1));
+    	var iKer = insertKernel(allSolutions[minIndex].ConvMat[i],kernelObj[i].data);
+    	printMatrix(iKer);
+    	for(var l = 0; l < iKer.length;l++){
+    		for(var w = 0; w< iKer[0].length;w++){
+    			if(iKer[l][w]==1){
+    				var color = kernelObj[i].color;
+
+    				img.setPixelColor(Jimp.rgbaToInt(color[0], color[1], color[2], 255),w,l);
+    			}
+    		}
+    	}
+    }
+}
+
+/*function brickInstructions(){
 
 	var t0 = performance.now();
 
@@ -152,7 +287,7 @@ function brickInstructions(){
 	    allSolutions.push(makeObject(matrix));
 	    
 	    var kernelObj = [
-	    	/*{
+	    	{
 	    		legoid:3020,
 	    		data:[[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1]],
 	    		key:'8x6',
@@ -172,7 +307,7 @@ function brickInstructions(){
 	    		key:'4x4',
 	    		price:0.12,
 	    		color:[46, 204, 113]
-	    	},*/
+	    	},
 	    	{
 	    		legoid:3020,
 	    		data:[[1,1,1,1],[1,1,1,1]],
@@ -290,7 +425,7 @@ function brickInstructions(){
 	    }, 100);
 	});
 }
-
+*/
 
 /*
 //Function: solutionController()
