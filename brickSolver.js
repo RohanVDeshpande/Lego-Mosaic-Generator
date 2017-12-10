@@ -5,6 +5,9 @@ var forEach = require('async-foreach').forEach;
 
 var savedSteps = 0;
 
+var colors = [[39, 37, 31],[217, 217, 214],[100, 100, 100], [150, 150, 150], [55, 33, 0], [170, 125, 85], [137, 125, 98], [176, 160, 111], [0, 69, 26], [0, 133, 43], [112, 142, 124], [88, 171, 65], [252, 172, 0], [214, 121, 35], [30, 90, 168], [70, 155, 195], [157, 195, 247], [114, 0, 18], [180, 0, 0], [95, 49, 9]];
+
+var pixMat = [];
 /*
 //function: brickInstructions()
 *********************************************
@@ -20,11 +23,99 @@ function separateImage(){
 	    	console.log(err)
 	    }
 	    for(var i = 0; i<img.bitmap.height;i++){
+	    	var matRow = [];
 	    	for(var j = 0; j<img.bitmap.width;j++){
-
+	    		for(var l = 0; l<colors.length;l++){
+	    			color = Jimp.intToRGBA(img.getPixelColor(i,j));
+		    		if(color.r == colors[l][0] && color.g == colors[l][1] && color.b == colors[l][2]){
+		    			matRow.push(l);
+		    			l=colors.length;
+		    		}
+	    		}
 	    	}
+	    	pixMat.push(matRow);
 	    }
+	    printMatrix(pixMat);
+
+	    var searchVal = pixMat[0][0];
+	    console.log('searching for: '+searchVal);
+		var region = [];
+		var point1 = [0,0];
+		region.push(point1);
+		region.concat(searchForVal(searchVal, 0 , 0, pixMat.length, pixMat[0].length));
+		printMatrix(pixMat);
+
+	    /*
+	    for(var i = 0; i<pixMat.length;i++){
+	    	for(var j = 0; j<pixMat[0].length;j++){
+	    		if(pixMat[i][j] != -1){
+	    			var searchVal = pixMat[i][j];
+	    			var region = [];
+	    			var point1 = [i,j];
+	    			region.push(point1);
+	    			region.concat(searchVal(searchVal, i , j, pixMat.length, pixMat[0].length));
+	    		}	
+	    	}
+	    }*/
+
 	});
+}
+
+function searchForVal(searchVal, i ,j, maxHeight, maxWidth){
+	var region = [];
+	//UP ROW (Left, Center, Right)
+	if(i>0 && j>0 && pixMat[i-1][j-1] == searchVal){
+		var point = [i-1,j-1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i-1 , j-1, maxHeight, maxWidth));
+	}
+	if(i>0 && pixMat[i-1][j] == searchVal){
+		var point = [i-1,j];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i-1 , j, maxHeight, maxWidth));
+	}
+	if(i>0 && j< maxWidth && pixMat[i-1][j+1] == searchVal){
+		var point = [i-1,j+1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i-1 , j+1, maxHeight, maxWidth));
+	}
+	//Center Row (Left, Right)
+	if(j>0 && pixMat[i][j-1] == searchVal){
+		var point = [i,j-1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i, j-1, maxHeight, maxWidth));
+	}
+	if(j< maxWidth && pixMat[i][j+1] == searchVal){
+		var point = [i,j+1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i , j+1, maxHeight, maxWidth));
+	}
+
+	//Bottom Row (Left, Center, Right)
+	if(i< maxHeight && j>0 && pixMat[i+1][j-1] == searchVal){
+		var point = [i+1,j-1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i+1 , j-1, maxHeight, maxWidth));
+	}
+	if(i< maxHeight && pixMat[i+1][j] == searchVal){
+		var point = [i+1,j];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i+1 , j, maxHeight, maxWidth));
+	}
+	if(i< maxHeight && j< maxWidth && pixMat[i+1][j+1] == searchVal){
+		var point = [i+1,j+1];
+		pixMat[i][j] = -1;
+		region.push(point);
+	    region.concat(searchForVal(searchVal, i+1 , j+1, maxHeight, maxWidth));
+	}
+	return region;
 }
 
 
