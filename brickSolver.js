@@ -28,7 +28,7 @@ var kernelObj = [
 	    		key:'4x4',
 	    		price:0.12,
 	    		color:[46, 204, 113]
-	    	},
+	    	},*/
 	    	{
 	    		legoid:3020,
 	    		data:[[1,1,1,1],[1,1,1,1]],
@@ -57,7 +57,7 @@ var kernelObj = [
 	    		price:0.04,
 	    		color:[211, 84, 0]
 	    	},
-	    	*/{
+	    	{
 	    		legoid:3023,
 	    		data:[[1],[1]],
 	    		key:'1x2',
@@ -127,7 +127,7 @@ function separateImage(){
 	    }
 	    console.log(allRegions);
 
-	    for(var i = 0; i< allRegions.length/5; i++){
+	    for(var i = 0; i< 1; i++){
 	    	brickInstructions(img, allRegions[i]);
 	    }
 
@@ -195,7 +195,7 @@ function searchForVal(searchVal, i ,j){
 
 function brickInstructions(img, matrix){
 	printMatrix(matrix);
-
+	var originalImg = copyMat(matrix);
 	var t0 = performance.now();
     var allSolutions = [];
     allSolutions.push(makeObject(matrix));
@@ -203,40 +203,45 @@ function brickInstructions(img, matrix){
     //kernelObj.length
     for(var a = 0; a<kernelObj.length;a++){
     	allSolutions = solutionController(allSolutions, kernelObj[a]);
+
     	console.log(kernelObj[a].key);
-    	var sum = 0;
-	    for(var i = 0; i < allSolutions.length; i++){
-	    	var string = "";
-	    	var cost = allSolutions[i].Qty.Cost;
-	    	sum += cost;
-	    	string += Math.round(cost * 100) / 100;
-	    	for(var j = 0; j<allSolutions[i].Qty.QtyMat.length; j++){
-	    		string += "\t";
-	    		string += allSolutions[i].Qty.QtyMat[j];
-	    	}
-	    }
-	    var average = sum/allSolutions.length;
-	    console.log('Cost Average was ' + average);
+	    if(allSolutions.length!=0){
+	    	var sum = 0;
+		    for(var i = 0; i < allSolutions.length; i++){
+		    	var string = "";
+		    	var cost = allSolutions[i].Qty.Cost;
+		    	sum += cost;
+		    	string += Math.round(cost * 100) / 100;
+		    	for(var j = 0; j<allSolutions[i].Qty.QtyMat.length; j++){
+		    		string += "\t";
+		    		string += allSolutions[i].Qty.QtyMat[j];
+		    	}
+		    }
+	    	var average = sum/allSolutions.length;
+		    console.log('Cost Average was ' + average);
 
+		    var squareDeviationSum = 0;
+		    for(var i = 0; i < allSolutions.length; i++){
+		    	squareDeviationSum += Math.pow((allSolutions[i].Qty.Cost - average),2);
+		    }
+		    squareDeviationSum /= allSolutions.length;
+		    var stdev = Math.sqrt(squareDeviationSum);
+		    console.log('Standard Deviation was ' + stdev);
 
-	    var squareDeviationSum = 0;
-	    for(var i = 0; i < allSolutions.length; i++){
-	    	squareDeviationSum += Math.pow((allSolutions[i].Qty.Cost - average),2);
+		    var itemsRemoved = 0;
+		    var upperBound = average + 0.04 * (kernelObj.length - a) * stdev;
+		    for(var i = allSolutions.length - 1; i > -1; i--){
+		    	if(allSolutions[i].Qty.Cost > upperBound){
+		    		//console.log(i+' was removed');
+		    		allSolutions.splice(i, 1);
+		    		itemsRemoved++;
+		    	}
+		    }
+		    console.log(itemsRemoved + ' items were removed');
 	    }
-	    squareDeviationSum /= allSolutions.length;
-	    var stdev = Math.sqrt(squareDeviationSum);
-	    console.log('Standard Deviation was ' + stdev);
-
-	    var itemsRemoved = 0;
-	    var upperBound = average + 0.04 * (kernelObj.length - a) * stdev;
-	    for(var i = allSolutions.length - 1; i > -1; i--){
-	    	if(allSolutions[i].Qty.Cost > upperBound){
-	    		//console.log(i+' was removed');
-	    		allSolutions.splice(i, 1);
-	    		itemsRemoved++;
-	    	}
+	    else{
+	    	allSolutions.push(makeObject(matrix));
 	    }
-	    console.log(itemsRemoved + ' items were removed');
     }
 
     var t1 = performance.now();
