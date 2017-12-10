@@ -104,15 +104,6 @@ function separateImage(){
 	    }
 	    printMatrix(pixMat);
 
-	    /*
-	    var searchVal = pixMat[0][0];
-	    console.log('searching for: '+searchVal);
-		var region = [];
-		var point1 = [0,0];
-		region.push(point1);
-		region.concat(searchForVal(searchVal, 0 , 0, pixMat.length, pixMat[0].length));
-		printMatrix(pixMat);
-		*/
 		removeMat = copyMat(pixMat);
 		copyPixMat = copyMat(pixMat);
 
@@ -135,7 +126,21 @@ function separateImage(){
 	    	}
 	    }
 	    console.log(allRegions);
-	    brickInstructions(img, allRegions[0]);
+
+	    for(var i = 0; i< allRegions.length/5; i++){
+	    	brickInstructions(img, allRegions[i]);
+	    }
+
+	    prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
+		prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
+
+	    iterator++;
+	    document.getElementById('iterator').innerHTML = iterator;
+	    img.write(".//temp//"+iterator+".png");
+	    setTimeout(function(){
+	    	updateImg(".//temp//"+iterator+".png", 'orgImg');
+	    	addToHistory();
+	    }, 100);
 	});
 }
 
