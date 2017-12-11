@@ -128,6 +128,7 @@ function separateImage(){
 	    console.log(allRegions);
 
 	    for(var i = 0; i< 1; i++){
+	    	printMatrix(allRegions[i]);
 	    	brickInstructions(img, allRegions[i]);
 	    }
 
@@ -194,6 +195,7 @@ function searchForVal(searchVal, i ,j){
 }
 
 function brickInstructions(img, matrix){
+	console.log('Instructions For:');
 	printMatrix(matrix);
 	var originalImg = copyMat(matrix);
 	var t0 = performance.now();
@@ -205,6 +207,7 @@ function brickInstructions(img, matrix){
     	allSolutions = solutionController(allSolutions, kernelObj[a]);
 
     	console.log(kernelObj[a].key);
+    	console.log(allSolutions);
 	    if(allSolutions.length!=0){
 	    	var sum = 0;
 		    for(var i = 0; i < allSolutions.length; i++){
@@ -238,9 +241,6 @@ function brickInstructions(img, matrix){
 		    	}
 		    }
 		    console.log(itemsRemoved + ' items were removed');
-	    }
-	    else{
-	    	allSolutions.push(makeObject(matrix));
 	    }
     }
 
@@ -548,6 +548,10 @@ function solutionList(convMatrix, kernelObj, orgObject){
 			var temp = editQty(sub, orgObject.Qty.QtyMat, elementNums, orgObject.ConvMat, convMat, kernelObj.price, orgObject.Qty.Cost);
 			solutionMatrices.push(temp);
 		}
+	}
+	if(coordList.length == 0){
+		var temp = editQty(orgObject.data, orgObject.Qty.QtyMat, 0, orgObject.ConvMat, zero(orgObject.data[0].length, orgObject.data.length), kernelObj.price, orgObject.Qty.Cost);
+		solutionMatrices.push(temp);
 	}
 	return solutionMatrices;
 }
