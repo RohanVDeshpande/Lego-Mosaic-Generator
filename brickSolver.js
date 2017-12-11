@@ -8,27 +8,6 @@ var savedSteps = 0;
 var colors = [[39, 37, 31],[217, 217, 214],[100, 100, 100], [150, 150, 150], [55, 33, 0], [170, 125, 85], [137, 125, 98], [176, 160, 111], [0, 69, 26], [0, 133, 43], [112, 142, 124], [88, 171, 65], [252, 172, 0], [214, 121, 35], [30, 90, 168], [70, 155, 195], [157, 195, 247], [114, 0, 18], [180, 0, 0], [95, 49, 9]];
 
 var kernelObj = [
-	    	/*{
-	    		legoid:3020,
-	    		data:[[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1]],
-	    		key:'8x6',
-	    		price:0.36,
-	    		color:[231, 76, 60]
-	    	},
-	    	{
-	    		legoid:3020,
-	    		data:[[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1],[1,1,1,1,1,1]],
-	    		key:'6x4',
-	    		price:0.18,
-	    		color:[39, 174, 96]
-	    	},
-	    	{
-	    		legoid:3020,
-	    		data:[[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]],
-	    		key:'4x4',
-	    		price:0.12,
-	    		color:[46, 204, 113]
-	    	},*/
 	    	{
 	    		legoid:3020,
 	    		data:[[1,1,1,1],[1,1,1,1]],
@@ -120,14 +99,18 @@ function separateImage(){
 	    			console.log('searching for: '+searchVal);
 	    			searchForVal(searchVal, i , j);
 	    			var bin = binaryTransform(pixMat);
-	    			allRegions.push(bin);
+	    			var colorMap = {
+	    				binMap: bin,
+	    				color: colors[searchVal]
+	    			}
+	    			allRegions.push(colorMap);
 	    			//printMatrix(bin);
 	    		}	
 	    	}
 	    }
 	    console.log(allRegions);
 
-	    for(var i = 0; i< 1; i++){
+	    for(var i = 0; i< 2; i++){
 	    	printMatrix(allRegions[i]);
 	    	brickInstructions(img, allRegions[i]);
 	    }
@@ -194,7 +177,12 @@ function searchForVal(searchVal, i ,j){
 	}
 }
 
-function brickInstructions(img, matrix){
+function brickInstructions(img, colorMapObj){
+	var matrix = colorMapObj.binMap;
+	var baseColor = colorMapObj.color;
+	var newKernelObj = kernelObj;
+	//newKernelObj = modifyColors(baseColor, newKernelObj);
+	console.log(baseColor);
 	console.log('Instructions For:');
 	printMatrix(matrix);
 	var originalImg = copyMat(matrix);
@@ -258,8 +246,7 @@ function brickInstructions(img, matrix){
     	for(var l = 0; l < iKer.length;l++){
     		for(var w = 0; w< iKer[0].length;w++){
     			if(iKer[l][w]==1){
-    				var color = kernelObj[i].color;
-
+    				var color = newKernelObj[i].color;
     				img.setPixelColor(Jimp.rgbaToInt(color[0], color[1], color[2], 255),w,l);
     			}
     		}
@@ -853,7 +840,30 @@ function binaryTransform(inputMatrix){
 	return newMat;
 }
 
-
+function modifyColors(baseColor, kernelList){
+	//console.log(kernelList);
+	for(var i = 0; i< kernelList.length; i++){
+		var change = -30+10*i;
+		for(var channel = 0; channel < 3; channel++){
+			var val = baseColor[channel] + change;
+			//console.log(val);
+			if(val >= 0 && val <= 255){
+				kernelList[i].color[channel] = val;
+				//console.log(1);
+			}
+			else if(val >= 0){
+				kernelList[i].color[channel] = 255;
+				//console.log(2);
+			}
+			else if(val <= 255){
+				kernelList[i].color[channel] = 0;
+				//console.log(3);
+			}
+		}
+	}
+	console.log(kernelList);
+	return kernelList;
+}
 
 
 
