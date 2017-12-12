@@ -68,9 +68,9 @@ function separateImage(){
 	    if (err){
 	    	console.log(err)
 	    }
-	    for(var j = 0; j<img.bitmap.width;j++){
+	    for(var j = 0; j<img.bitmap.height;j++){
 	    	var matRow = [];
-	    	for(var i = 0; i<img.bitmap.height;i++){
+	    	for(var i = 0; i<img.bitmap.width;i++){
 	    		for(var l = 0; l<colors.length;l++){
 	    			color = Jimp.intToRGBA(img.getPixelColor(i,j));
 		    		if(color.r == colors[l][0] && color.g == colors[l][1] && color.b == colors[l][2]){
@@ -108,14 +108,38 @@ function separateImage(){
 	    		}	
 	    	}
 	    }
+
 	    console.log(allRegions);
 
+	    var PDFDocument = require("pdfkit");	 
+		//Create a document 
+		doc = new PDFDocument;
+		 
+		//Pipe its output somewhere, like to a file or HTTP response 
+		//See below for browser usage 
+		doc.pipe(fs.createWriteStream('output.pdf'));
+		doc.image('./temp/'+iterator+'.png', {
+					fit: [250, 300],
+					align: 'center',
+					valign: 'center'
+				});
 	    for(var i = 0; i< 2; i++){
 	    	printMatrix(allRegions[i]);
 	    	brickInstructions(img, allRegions[i]);
+	    	iterator++;
+		    document.getElementById('iterator').innerHTML = iterator;
+		    img.write(".//temp//"+iterator+".png");
+
+		    doc.addPage();
+			doc.image('./temp/'+iterator+'.png', {
+					fit: [250, 300],
+					align: 'center',
+					valign: 'center'
+				});
 	    }
 
-	    createPDF("./temp/"+iterator+".png");
+		//Finalize PDF file 
+		doc.end();
 
 	    prevWidth = parseInt(document.getElementById('imgWidth').innerHTML);
 		prevHeight = parseInt(document.getElementById('imgHeight').innerHTML);
@@ -923,7 +947,8 @@ document.getElementById('addGrid').addEventListener('click',function(){
 },false);
 
 
-function createPDF(path){
+function createPDF(startIndex, endIndex){
+	console.log('start: '+startIndex+'\tend: '+endIndex);
 	var PDFDocument = require("pdfkit");
 	 
 	//Create a document 
@@ -937,30 +962,21 @@ function createPDF(path){
 	doc.fontSize(25)
 	   .text('Some text with an embedded font!', 100, 100);
 	 
-	//Add an image, constrain it to a given size, and center it vertically and horizontally 
-	doc.image(path, {
-	   fit: [250, 300],
-	   align: 'center',
-	   valign: 'center'
-	});
-	 
-	//Add another page 
-	doc.addPage()
-	   .fontSize(25)
-	   .text('Here is some vector graphics...', 100, 100);
-	 
-	//Draw a triangle 
-	doc.save()
-	   .moveTo(100, 150)
-	   .lineTo(100, 250)
-	   .lineTo(200, 250)
-	   .fill("#FF3300");
-	 
-	//Apply some transforms and render an SVG path with the 'even-odd' fill rule 
-	doc.scale(0.6).translate(470, -380).path('M 250,75 L 323,301 131,161 369,161 177,301 z').fill('red', 'even-odd').restore();
-	 
-	//Add some text with annotations 
-	 
+	doc.image('./temp/'+startIndex+'.png', {
+				fit: [250, 300],
+				align: 'center',
+				valign: 'center'
+			});
+
+	for(var i = startIndex+1; i< endIndex+1; i++){
+		doc.addPage();
+		doc.image('./temp/'+i+'.png', {
+				fit: [250, 300],
+				align: 'center',
+				valign: 'center'
+			});
+	}
+
 	//Finalize PDF file 
 	doc.end();
 }
